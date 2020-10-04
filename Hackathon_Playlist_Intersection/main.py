@@ -4,7 +4,6 @@ if __name__ == '__main__':
     from spotipy.oauth2 import SpotifyOAuth
     import mysql.connector
 
-    print(os.getenv('MEETIFY_SQL_PASS'))
     cnx = mysql.connector.connect(user='root', password=os.getenv('MEETIFY_SQL_PASS'),
                                   host='35.221.58.248',
                                   database='meetify')
