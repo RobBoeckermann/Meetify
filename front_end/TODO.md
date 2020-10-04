@@ -1,7 +1,12 @@
 # Meetify Front-end TODO
 
+### OG Hackathon
 - [x] Get something running
-- [ ] Figure out & implement base app structure
+- [x] Figure out & implement base app structure
 - [ ] Integrate something with Meetify server
+
+### Post-Hackathon
 - [ ] Investigate Typescript integration
+- [ ] Investigate Redux integration
+- [ ] Better organize files
 
