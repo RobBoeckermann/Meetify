@@ -4,5 +4,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path(r'^intersection/[0-9]$', views.intersect)
+    # # path('intersection/', views.intersect)
+    # path(regex=r'^intersection/(?P<target>\w{1,50})', view='views.intersect')
+
+    path('intersection/', views.intersect)
 ]
