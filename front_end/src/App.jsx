@@ -8,11 +8,11 @@ import Intersect from './Intersect';
 import './App.css';
 
 const TAB_CONFIG = [{
-  label: "Intersect",
-  component: <Intersect/>,
+  label: 'Intersect',
+  val: 'intersect',
 }, {
-  label: "Account",
-  component: <Account/>,
+  label: 'Account',
+  val: 'account'
 }];
 
 export default class App extends React.Component {
@@ -20,38 +20,77 @@ export default class App extends React.Component {
     super();
 
     this.state = {
-      activeTab: 0,
+      activeTab: 'intersect',
+      intersect: {
+        userId: '',
+        songs: []
+      },
+      account: {
+        username: '',
+        password: ''
+      }
     };
+
+    this.intersect = <Intersect/>;
+    this.account = <Account/>;
   }
 
-  handleTabClick(i) {
-    this.setState({activeTab: i}) ;
+  handleTabClick(v) {
+    this.setState({activeTab: v}) ;
+  }
+
+  handleChildChange(obj, stateKey) {
+    const newObj = {};
+    newObj[stateKey]={};
+    Object.assign(newObj[stateKey], this.state[stateKey], obj);
+    this.setState(newObj);
   }
 
   getActiveComponent() {
-    return TAB_CONFIG[this.state.activeTab].component;
+    if (this.state.activeTab === 'intersect') {
+      return (
+        <Intersect
+          {...this.state.intersect}
+          onUpdate={(o) => this.handleChildChange(o, 'intersect')}
+        />
+      );
+    } else if (this.state.activeTab === 'account'){
+      return (
+        <Account
+          {...this.state.account}
+          onUpdate={(o) => this.handleChildChange(o, 'account')}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getActiveComponentIndex () {
+    return TAB_CONFIG.findIndex(x => x.val === this.state.activeTab);
   }
 
   render() {
-    const tabs = TAB_CONFIG.map((x, i) => {
+    const tabs = TAB_CONFIG.map((x) => {
       return (
         <Tab
-          key={i}
+          key={x.val}
           label={x.label}
-          onClick={() => this.handleTabClick(i)}
+          onClick={() => this.handleTabClick(x.val)}
         />
       );
     });
 
-    const activeComponent = this.getActiveComponent();
+    const component = this.getActiveComponent();
+    const componentIndex = this.getActiveComponentIndex();
 
     return (
       <div className="app-root">
-        <VerticalTabBar className="tab-bar" activeTab={this.state.activeTab}>
+        <VerticalTabBar className="tab-bar" activeTab={componentIndex}>
           {tabs}
         </VerticalTabBar>
         <div className="main-container">
-          {activeComponent}
+          {component}
         </div>
       </div>
     );

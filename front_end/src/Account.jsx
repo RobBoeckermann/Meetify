@@ -8,22 +8,16 @@ import "./Account.css";
 export default class Account extends React.Component {
   constructor (props) {
     super(props);
-
-    this.state = {
-      username: '',
-      password: '',
-      loggedIn: false,
-    };
   }
 
   handleClick() {
-    console.log(`Username: ${this.state.username}, password: ${this.state.password}`);
+    console.log(`Username: ${this.props.username}, password: ${this.props.password}`);
   }
 
   handleChange(key, event) {
     const change = {};
     change[key] = event.target.value;
-    this.setState(change);
+    if (this.props.onUpdate) this.props.onUpdate(change);
   }
 
   render () {
@@ -42,7 +36,7 @@ export default class Account extends React.Component {
         <Grid item className="account-grid-item" xs={12}>
           <TextField
             label="Username"
-            value={this.state.username}
+            value={this.props.username}
             onChange={(e) => this.handleChange('username', e)}
           />
         </Grid>
@@ -51,7 +45,7 @@ export default class Account extends React.Component {
             label="Password"
             type="password"
             autoComplete="current-password"
-            value={this.state.password}
+            value={this.props.password}
             onChange={(e) => this.handleChange('password', e)}
           />
         </Grid>

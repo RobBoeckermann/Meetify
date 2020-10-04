@@ -40,17 +40,12 @@ function SongTable (props) {
 export default class Intersect extends React.Component {
   constructor (props) {
     super(props);
-
-    this.state = {
-      userId: '',
-      songs: []
-    };
   }
 
   handleChange(key, event) {
     const change = {};
     change[key] = event.target.value;
-    this.setState(change);
+    if (this.props.onUpdate) this.props.onUpdate(change);
   }
 
   handleClick() {
@@ -73,12 +68,11 @@ export default class Intersect extends React.Component {
     }];
 
     for (let i = 0; i < 3; i++) songs.push(...songs);
-
-    this.setState({songs: songs.map((x, i) => Object.assign(x, {id: i}))});
+    this.props.onUpdate({songs});
   }
 
   render () {
-    const songTable = SongTable({songs: this.state.songs});
+    const songTable = SongTable({songs: this.props.songs});
 
     return (
       <div>
@@ -90,7 +84,7 @@ export default class Intersect extends React.Component {
           <Grid item>
             <TextField
               label="Other User's ID"
-              value={this.state.userId}
+              value={this.props.userId}
               onChange={(e) => this.handleChange('userId', e)}
             />
           </Grid>
