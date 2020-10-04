@@ -13,7 +13,9 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width:800,
         height:600,
-        show: false
+        show: false,
+        // TODO: TEMPORARY! FIX!
+        webPreferences: {webSecurity: false}
     });
     const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
 

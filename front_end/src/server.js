@@ -3,7 +3,7 @@
 // const axios = require('axios')
 import axios from 'axios'
 
-const SERVER_URL = 'http://localhost:1234'
+const SERVER_URL = 'http://localhost:8000'
 
 // joinUrl('www.some.link', 'sub', 'path') = 'www.some.link/sub/path'
 // NOTE: For now assumes all args are valid, i.e. no spaces and things
@@ -18,10 +18,12 @@ const getUrlQuery = (o) => {
 }
 
 export const getPlaylistIntersect = (userId1, userId2) => {
-  const query = getUrlQuery({ target1: userId1, target2: userId2 })
-  const urlPath = joinUrl(SERVER_URL, 'polls', 'intersect', query)
+  const query = getUrlQuery({ target: userId1, target2: userId2 })
+  const urlPath = joinUrl(SERVER_URL, 'polls', 'intersection', query)
 
-  return axios.get(urlPath)
+  console.info('Pulling data from:', urlPath)
+
+  return axios.get(urlPath, { mode: 'no-cors' })
     .then((r) => {
       return r
     }).catch((e) => {

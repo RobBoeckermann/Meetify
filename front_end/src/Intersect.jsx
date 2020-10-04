@@ -51,29 +51,21 @@ export default class Intersect extends React.Component {
   }
 
   handleClick() {
-    console.log('Filling with dummy data...');
-    let songs = [{
-      song: 'Love me Do',
-      artist: 'Beatles',
-    }, {
-      song: 'Love Me Do Not',
-      artist: 'Bartle',
-    }, {
-      song: 'Do You Don\'t You',
-      artist: 'Haywyre',
-    }, {
-      song: 'Don\'t You Do You',
-      artist: 'Highwrye',
-    }, {
-      song: 'Do You Love Me Don\'t You',
-      artist: 'Beatlewyre'
-    }];
+    // For now, hard-code test users
+    const testUser1 = 'robboeckermann';
+    const testUser2 = 'ufnyhw68rotgu1we9n4jq8mwu';
 
-    for (let i = 0; i < 3; i++) songs.push(...songs);
-    this.props.onUpdate({songs});
-
-    getPlaylistIntersect('1','2').then((r) => {
-      console.log(r);
+    getPlaylistIntersect(testUser1, testUser2).then((r) => {
+      // TODO: Clean this up
+      if (r.data) {
+        if (r.data.data) {
+          this.props.onUpdate({songs: r.data.data});
+        } else {
+          console.error('Invalid format', r);
+        }
+      } else {
+        console.error('Invalid format', r);
+      }
     }).catch((e) => {
       console.log(e);
     });
