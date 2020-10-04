@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('intersection/(0-9)$', views.intersect)
+    path(r'^intersection/[0-9]$', views.intersect)
 ]
