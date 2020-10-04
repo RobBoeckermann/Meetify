@@ -10,6 +10,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import { getPlaylistIntersect } from './server';
+
 function SongTable (props) {
   if (props.songs == null || props.songs.length === 0) {
     return null;
@@ -69,6 +71,12 @@ export default class Intersect extends React.Component {
 
     for (let i = 0; i < 3; i++) songs.push(...songs);
     this.props.onUpdate({songs});
+
+    getPlaylistIntersect('1','2').then((r) => {
+      console.log(r);
+    }).catch((e) => {
+      console.log(e);
+    });
   }
 
   render () {
