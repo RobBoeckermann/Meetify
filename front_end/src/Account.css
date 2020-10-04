@@ -1,0 +1,9 @@
+.account-root {
+    height: 100%;
+    width: 100%;
+}
+
+.account-grid-item {
+    text-align: center;
+    padding-bottom: 10px;
+}
