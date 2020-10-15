@@ -24,11 +24,15 @@ def intersect_songs(user_to_compare, current_user = userid):
 def update_liked_songs():
     offset = 0
     user1_liked_songs = []
-    while (offset < 3000):
+    end = False
+    while (end == False):
         user1_saved_tracks = user_api.current_user_saved_tracks(limit=50, offset=offset)
-        for item in user1_saved_tracks['items']:
-            user1_liked_songs.append(item["track"]["id"])
-        offset = offset + 50
+        if (len(user1_saved_tracks['items']) == 0):
+            end = True
+        else:
+            for item in user1_saved_tracks['items']:
+                user1_liked_songs.append(item["track"]["id"])
+            offset = offset + 50
 
     deleteQuery = ("DELETE FROM user_liked_songs WHERE user_id='" + userid + "';")
     cursor.execute(deleteQuery)
