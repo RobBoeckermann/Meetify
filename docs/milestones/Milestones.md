@@ -1,4 +1,4 @@
-# Milestones  
+# Meetify - Milestones
 
 ### Stack Setup -- 10/04/2020  
 Create the basic environment for the code to live in. This includes:  

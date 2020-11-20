@@ -8,7 +8,14 @@
 - [Project Description](#project-description)
 
 #### Table of Contents - Extended Universe
-- [User Stories](docs/user-stories.md)
+- [User Stories](docs/user_stories.md)
+- [Design Diagrams](docs/design_diagrams.pdf)
+- Project Progress
+    - [Tasks](docs/tasks.md)
+    - [Milestones](docs/milestones/milestones.md)
+    - [Timeline](docs/milestones/Timeline.PNG)
+    - [Effort Matrix](docs/milestones/Effort Matrix.PNG)
+- [Midterm Presentation Slides](docs/midterm_presentation/Meetify - Midterm Presentation.pdf)
 
 ## Overview
 
