@@ -1,8 +1,8 @@
 # Dustin Seger - Individual Capstone Assessment - Meetify
 
-**Author:** Dustin Seger
-**Project:** Meetify
-**Date:** 9/9/20
+**Author:** Dustin Seger  
+**Project:** Meetify  
+**Date:** 9/9/20  
 **Purpose:** Senior Capstone Class - Assignment 3
 
 From my perspective, senior design projects are about showcasing what you're
