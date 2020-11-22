@@ -26,6 +26,7 @@
     - [Rob Boeckermann](docs/bios/rob-boeckermann-bio.pdf)
     - [Dustin Seger](docs/bios/dustin-seger-bio.md)
     - [Jake Steuver](docs/bios/jake-steuver-bio.md)
+- [Appendix](docs/appendix.md)
 
 ## Overview
 
