@@ -29,12 +29,12 @@ This project has not incurred any expenses, nor has the project team accepted an
     - Researched tools
 - Sep 15, 2020: Design Diagrams and User Stories
     - Finalized product stack design
-    - Constructed [design diagrams](docs/design_diagrams.pdf)
-    - Created [user stories](docs/user_stories.md)
+    - Constructed [design diagrams](design_diagrams.pdf)
+    - Created [user stories](user_stories.md)
 - Sep 22, 2020: Task Lists
     - Identified project tasks
     - Assigned responsibility
-    - Created [task list](docs/tasks.md)
+    - Created [task list](tasks.md)
 - Oct 3, 2020: MakeUC Hackathon
     - Set up core environment and tech stack
     - Began backend processing
@@ -43,17 +43,17 @@ This project has not incurred any expenses, nor has the project team accepted an
 - Oct 4, 2020: MakeUC Hackathon and Assessing Project Progress
     - Finalized Meetify prototype
     - Recorded a demo
-    - Created [milestones](docs/milestones/milestones.md)
-    - Created [timeline](docs/milestones/timeline.png)
-    - Created [effort matrix](docs/milestones/effort_matrix.png)
+    - Created [milestones](milestones/milestones.md)
+    - Created [timeline](milestones/timeline.png)
+    - Created [effort matrix](milestones/effort_matrix.png)
 - Oct 10, 2020: Major Constraints
-    - Identified [project constraints](docs/constraints.md)
+    - Identified [project constraints](constraints.md)
     - Discussed avenues for meeting said constraints
 - Oct 17, 2020: Midterm Presentation
-    - Compiled past work into [presentation slides](docs/midterm_presentation.pdf)
-    - Recorded [presentation video](docs/midterm_presentation_video_link.txt)
+    - Compiled past work into [presentation slides](midterm_presentation.pdf)
+    - Recorded [presentation video](midterm_presentation_video_link.txt)
 - Nov 20, 2020: Final Report
-    - Constructed [final report](README.md)
+    - Constructed [final report](../README.md)
     - Updated documentation
 
 ## Team Effort
