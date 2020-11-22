@@ -50,8 +50,8 @@ This project has not incurred any expenses, nor has the project team accepted an
     - Identified [project constraints](constraints.md)
     - Discussed avenues for meeting said constraints
 - Oct 17, 2020: Midterm Presentation
-    - Compiled past work into [presentation slides](midterm_presentation.pdf)
-    - Recorded [presentation video](midterm_presentation_video_link.txt)
+    - Compiled past work into [presentation slides](midterm_presentation/midterm_presentation.pdf)
+    - Recorded [presentation video](midterm_presentation/midterm_presentation_video_link.txt)
 - Nov 20, 2020: Final Report
     - Constructed [final report](../README.md)
     - Updated documentation
