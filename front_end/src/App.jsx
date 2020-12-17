@@ -1,10 +1,12 @@
 import React from 'react';
-import VerticalTabBar from './VerticalTabBar';
-import Tab from '@material-ui/core/Tab';
+import { Tab, Paper } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
 
+import VerticalTabBar from './VerticalTabBar';
 import Account from './Account';
 import Intersect from './Intersect';
 
+import { theme } from './theme'
 import './App.css';
 
 const TAB_CONFIG = [{
@@ -85,14 +87,16 @@ export default class App extends React.Component {
     const componentIndex = this.getActiveComponentIndex();
 
     return (
-      <div className="app-root">
-        <VerticalTabBar className="tab-bar" activeTab={componentIndex}>
-          {tabs}
-        </VerticalTabBar>
-        <div className="main-container">
-          {component}
-        </div>
-      </div>
+      <ThemeProvider theme={theme}>
+        <Paper className="app-root" square>
+          <VerticalTabBar className="tab-bar" activeTab={componentIndex}>
+            {tabs}
+          </VerticalTabBar>
+          <div className="main-container">
+            {component}
+          </div>
+        </Paper>
+      </ThemeProvider>
     );
   }
 }

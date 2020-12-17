@@ -1,11 +1,17 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
+import { Paper, Tabs } from '@material-ui/core';
 import './VerticalTabBar.css';
+
+import {theme} from './theme.js'
 
 export default function VerticalTabBar (props){
   return (
-    <Paper className={props.className} square>
+    <Paper
+      square
+      className={props.className}
+      /* TODO: Nicer way to handle this? */
+      style={{backgroundColor: theme.palette.background.default}}
+    >
       <Tabs
         orientation="vertical"
         value={props.activeTab || 0}
