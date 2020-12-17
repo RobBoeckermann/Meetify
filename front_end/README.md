@@ -31,7 +31,7 @@ technologies:
 
  ``` sh
 # Website:
-npm run website:start
+npm run website:serve
 
 # Electron (Desktop app):
 npm run electron:serve

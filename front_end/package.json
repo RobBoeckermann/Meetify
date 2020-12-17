@@ -15,12 +15,12 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
-    "website:start": "react-scripts start",
+    "website:serve": "react-scripts start",
     "website:build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron:build": "npm run website:build && node_modules/.bin/build",
-    "electron:dev": "concurrently \"npm run website:start\" \"wait-on http://localhost:3000 && electron .\""
+    "electron:serve": "concurrently \"npm run website:serve\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "npm run website:build && node_modules/.bin/build"
   },
   "eslintConfig": {
     "extends": "react-app"
