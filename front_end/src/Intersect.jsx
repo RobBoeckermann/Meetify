@@ -12,6 +12,8 @@ import TableRow from '@material-ui/core/TableRow';
 
 import { getPlaylistIntersect } from './server';
 
+import SongTile from './SongTile';
+
 function SongTable (props) {
   if (props.songs == null || props.songs.length === 0) {
     return null;
@@ -51,24 +53,48 @@ export default class Intersect extends React.Component {
   }
 
   handleClick() {
-    // For now, hard-code test users
-    const testUser1 = 'robboeckermann';
-    const testUser2 = 'ufnyhw68rotgu1we9n4jq8mwu';
+    // NOTE: Original test data; can make more robust or delete later
+    // // For now, hard-code test users
+    // const testUser1 = 'robboeckermann';
+    // const testUser2 = 'ufnyhw68rotgu1we9n4jq8mwu';
 
-    getPlaylistIntersect(testUser1, testUser2).then((r) => {
-      // TODO: Clean this up
-      if (r.data) {
-        if (r.data.data) {
-          this.props.onUpdate({songs: r.data.data});
-        } else {
-          console.error('Invalid format', r);
-        }
-      } else {
-        console.error('Invalid format', r);
-      }
-    }).catch((e) => {
-      console.log(e);
-    });
+    // getPlaylistIntersect(testUser1, testUser2).then((r) => {
+    //   // TODO: Clean this up
+    //   if (r.data) {
+    //     if (r.data.data) {
+    //       this.props.onUpdate({songs: r.data.data});
+    //     } else {
+    //       console.error('Invalid format', r);
+    //     }
+    //   } else {
+    //     console.error('Invalid format', r);
+    //   }
+    // }).catch((e) => {
+    //   console.log(e);
+    // });
+
+    // NOTE: Temporary test data
+    const testSongData = [
+      {
+        song: 'Welcome to the Black Parade',
+        artist: 'My Chemical Romance',
+        album: 'The Black Parade',
+        albumArtUrl: 'https://upload.wikimedia.org/wikipedia/en/c/c7/Welcome_to_the_Black_Parade_cover.jpg',
+      },
+      {
+        song: 'still feel.',
+        artist: 'half alive',
+        album: 'still feel.',
+        albumArtUrl: 'https://images.genius.com/024425b1a9cd97a94ca44950e780c138.1000x1000x1.jpg',
+      },
+      {
+        song: 'Ramen King',
+        artist: 'Pink Guy',
+        album: 'Pink Season',
+        albumArtUrl: 'https://upload.wikimedia.org/wikipedia/en/8/8b/Pink_Season.jpg',
+      },
+    ]
+    this.props.onUpdate({songs: testSongData.concat(testSongData).concat(testSongData)})
   }
 
   render () {
@@ -101,7 +127,7 @@ export default class Intersect extends React.Component {
         </Grid>
 
         <div style={{ 'overflow-y': 'auto' }}>
-          {songTable}
+          <SongTile songs={this.props.songs}/>
         </div>
       </div>
     );
