@@ -1,10 +1,11 @@
-import React from 'react';
-import { Tab, Paper } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
+import React from 'react'
+import { Tab, Paper } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/core/styles'
 
-import VerticalTabBar from './VerticalTabBar';
-import Account from './Account';
-import Intersect from './Intersect';
+import VerticalTabBar from './VerticalTabBar'
+import Account from './Account'
+import Intersect from './Intersect'
+import Login from './Login'
 
 import { theme } from './theme'
 import './App.css';
@@ -25,11 +26,12 @@ export default class App extends React.Component {
       activeTab: 'intersect',
       intersect: {
         userId: '',
-        songs: []
+        songs: [],
       },
       account: {
+        loggedIn: false,
         username: '',
-        password: ''
+        password: '',
       }
     };
 
@@ -72,29 +74,48 @@ export default class App extends React.Component {
     return TAB_CONFIG.findIndex(x => x.val === this.state.activeTab);
   }
 
+  handleSuccessfulLogin () {
+    // TODO: Nice welcome screen
+    this.setState({account: {loggedIn: true}})
+  }
+
   render() {
-    const tabs = TAB_CONFIG.map((x) => {
-      return (
-        <Tab
-          key={x.val}
-          label={x.label}
-          onClick={() => this.handleTabClick(x.val)}
-        />
-      );
-    });
+    let app = null;
 
-    const component = this.getActiveComponent();
-    const componentIndex = this.getActiveComponentIndex();
+    if (!this.state.account.loggedIn) {
+      // For some reason need to use lambda to keep "this" in context...
+      app = <Login onSuccess={ () => this.handleSuccessfulLogin () }/>
 
-    return (
-      <ThemeProvider theme={theme}>
-        <Paper className="app-root" square>
+    } else {
+      const tabs = TAB_CONFIG.map((x) => {
+        return (
+          <Tab
+            key={x.val}
+            label={x.label}
+            onClick={() => this.handleTabClick(x.val)}
+          />
+        );
+      });
+
+      const component = this.getActiveComponent();
+      const componentIndex = this.getActiveComponentIndex();
+
+      app = (
+        <>
           <VerticalTabBar className="tab-bar" activeTab={componentIndex}>
             {tabs}
           </VerticalTabBar>
           <div className="main-container">
             {component}
           </div>
+        </>
+      )
+    }
+
+    return (
+      <ThemeProvider theme={theme}>
+        <Paper className="app-root" square>
+          { app }
         </Paper>
       </ThemeProvider>
     );
