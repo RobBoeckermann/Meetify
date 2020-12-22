@@ -3,49 +3,11 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
-import { getPlaylistIntersect } from './server';
+// import { getPlaylistIntersect } from './server';
 
 import SongTile from './SongTile';
 
-function SongTable (props) {
-  if (props.songs == null || props.songs.length === 0) {
-    return null;
-  }
-
-  return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Song</TableCell>
-            <TableCell>Artist</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.songs.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.song}</TableCell>
-              <TableCell>{row.artist}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-}
-
 export default class Intersect extends React.Component {
-  constructor (props) {
-    super(props);
-  }
-
   handleChange(key, event) {
     const change = {};
     change[key] = event.target.value;
@@ -98,8 +60,6 @@ export default class Intersect extends React.Component {
   }
 
   render () {
-    const songTable = SongTable({songs: this.props.songs});
-
     return (
       <div>
         <Grid
@@ -126,8 +86,18 @@ export default class Intersect extends React.Component {
           </Grid>
         </Grid>
 
-        <div style={{ 'overflow-y': 'auto' }}>
-          <SongTile songs={this.props.songs}/>
+        {/* TODO: Make scrollable, e.g.... */}
+        {/* <div style={{ overflowY: 'auto', height: '200px' }}> */}
+        <div>
+          {this.props.songs.map((row, index) => (
+            <SongTile
+              key={index}
+              song={row.song}
+              artist={row.song}
+              album={row.album}
+              albumArtUrl={row.albumArtUrl}
+            />
+          ))}
         </div>
       </div>
     );
