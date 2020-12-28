@@ -1,4 +1,5 @@
 import React from 'react'
+import { CSSTransition } from 'react-transition-group';
 import { Tab, Paper } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/core/styles'
 
@@ -8,7 +9,10 @@ import Intersect from './Intersect'
 import Login from './Login'
 
 import { theme } from './theme'
-import './App.css';
+import './App.css'
+import './transitions.css'
+
+const TRANSITION_DURATION = 500
 
 const TAB_CONFIG = [{
   label: 'Intersect',
@@ -80,42 +84,59 @@ export default class App extends React.Component {
   }
 
   render() {
-    let app = null;
+    // For some reason need to use lambda to keep "this" in context...
+    const loginComp = <Login onSuccess={ () => this.handleSuccessfulLogin () }/>
 
-    if (!this.state.account.loggedIn) {
-      // For some reason need to use lambda to keep "this" in context...
-      app = <Login onSuccess={ () => this.handleSuccessfulLogin () }/>
+    const tabs = TAB_CONFIG.map((x) => {
+      return (
+        <Tab
+          key={x.val}
+          label={x.label}
+          onClick={() => this.handleTabClick(x.val)}
+        />
+      );
+    });
 
-    } else {
-      const tabs = TAB_CONFIG.map((x) => {
-        return (
-          <Tab
-            key={x.val}
-            label={x.label}
-            onClick={() => this.handleTabClick(x.val)}
-          />
-        );
-      });
+    const component = this.getActiveComponent();
+    const componentIndex = this.getActiveComponentIndex();
 
-      const component = this.getActiveComponent();
-      const componentIndex = this.getActiveComponentIndex();
-
-      app = (
-        <>
-          <VerticalTabBar className="tab-bar" activeTab={componentIndex}>
-            {tabs}
-          </VerticalTabBar>
-          <div className="main-container">
-            {component}
-          </div>
-        </>
-      )
-    }
+    const mainAppComp = (
+      <>
+        <VerticalTabBar className="tab-bar" activeTab={componentIndex}>
+          {tabs}
+        </VerticalTabBar>
+        <div className="main-container">
+          {component}
+        </div>
+      </>
+    )
 
     return (
       <ThemeProvider theme={theme}>
-        <Paper className="app-root" square>
-          { app }
+        <Paper className="app-root" square style={{position:'relative'}}>
+          <CSSTransition
+            classNames="fade"
+            timeout={TRANSITION_DURATION}
+            unmountOnExit
+            style={{position: 'absolute', height: '100%', width: '100%'}}
+            in={!this.state.account.loggedIn}
+          >
+            {loginComp}
+          </CSSTransition>
+
+          <CSSTransition
+            classNames="fade"
+            timeout={TRANSITION_DURATION}
+            unmountOnExit
+            style={{position: 'absolute', height: '100%', width: '100%'}}
+            in={this.state.account.loggedIn}
+          >
+            <div>
+              <div style={{display: 'flex', height: '100%', width: '100%'}}>
+                {mainAppComp}
+              </div>
+            </div>
+          </CSSTransition>
         </Paper>
       </ThemeProvider>
     );

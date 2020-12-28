@@ -44,13 +44,6 @@ export default class Login extends React.Component {
     // Phase 3: Emit success event after slight delay
     this.setState((state) => state.timeout = setTimeout(() => {
       if (this.props.onSuccess) this.props.onSuccess()
-
-      // Parent may (and should) use onSuccess to switch components, so ensure we're mounted
-      // If so, revert back from welcome mode
-      if (this._isMounted) this.setState((state) => {
-        state.welcomeVisible = false
-        state.loginVisible = true
-      })
     }, TRANSITION_DURATION + WELCOME_DURATION))
   }
 
@@ -120,7 +113,7 @@ export default class Login extends React.Component {
     // transitions to happen on top of each other
     return (
       <div
-        style={{height: '100%', width: '100%', position: 'relative'}}
+        style={{height: '100%', width: '100%', position: 'absolute'}}
       >
         {/* TODO: Would be nice to make this concise with common component, but
                   CSSTransition doesn't seem to like using "in" from a prop */}
