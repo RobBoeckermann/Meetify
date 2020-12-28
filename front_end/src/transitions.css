@@ -8,6 +8,8 @@
  * NOTE: Since there are multiple "phases" for each transition, this file could
  * get large, so please keep the following list updated...
  *
+ * TODO: Maybe put this in class form with constants so durations are more publicly accessible
+ *
  * == CURRENTLY ACTIVE TRANSITIONS ==
  * - "fade"
  *
@@ -18,12 +20,12 @@
 }
 .fade-enter-active {
   opacity: 1;
-  transition: opacity 200ms;
+  transition: opacity 500ms;
 }
 .fade-exit {
   opacity: 1;
 }
 .fade-exit-active {
   opacity: 0;
-  transition: opacity 200ms;
+  transition: opacity 500ms;
 }

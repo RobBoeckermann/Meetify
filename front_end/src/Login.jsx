@@ -1,9 +1,21 @@
+/*
+ * Component for handling logins with a welcome message
+ * NOTE: Not yet connected to server; just succeeds whenever for now
+ * TODO: Gives "findDOMNode" warning on each animation...
+ *
+ * Props:
+ * - onSuccess() = method to call on successful login
+ */
+
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Grid, TextField, Button, Typography } from '@material-ui/core';
 
 import {theme} from './theme'
 import './transitions.css'
+
+const TRANSITION_DURATION = 500
+const WELCOME_DURATION = 2000
 
 export default class Login extends React.Component {
   constructor (props) {
@@ -14,27 +26,35 @@ export default class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      inWelcomeMode: false,
+      loginVisible: true,
+      welcomeVisible: false,
       timeout: null,
     }
   }
 
   handleClick () {
     // TODO: (Eventually) Query against server and emit success then
-    this.setState((state) => state.inWelcomeMode = true)
+
+    // Phase 1: Fade out login
+    this.setState((state) => state.loginVisible = false)
+
+    // Phase 2: Fade in welcome message
+    this.setState((state) => state.welcomeVisible = true)
+
+    // Phase 3: Emit success event after slight delay
     this.setState((state) => state.timeout = setTimeout(() => {
-      // Call parent onSuccess event
       if (this.props.onSuccess) this.props.onSuccess()
 
-      // Parent may use onSuccess to switch components, so ensure we're mounted
-      // If not, revert back from welcome mode
-      if (this._isMounted) this.setState((state) => (state.inWelcomeMode = false))
-    }, 2000))
+      // Parent may (and should) use onSuccess to switch components, so ensure we're mounted
+      // If so, revert back from welcome mode
+      if (this._isMounted) this.setState((state) => {
+        state.welcomeVisible = false
+        state.loginVisible = true
+      })
+    }, TRANSITION_DURATION + WELCOME_DURATION))
   }
 
-  componentDidMount () {
-    this._isMounted = true
-  }
+  componentDidMount () { this._isMounted = true }
 
   componentWillUnmount () {
     this._isMounted = false
@@ -95,16 +115,21 @@ export default class Login extends React.Component {
       </>
     )
 
+    // Return final result with transitions prepped between login and welcome screen
+    // Note that weird "absolute" / "relative" interactions allow for
+    // transitions to happen on top of each other
     return (
       <div
         style={{height: '100%', width: '100%', position: 'relative'}}
       >
+        {/* TODO: Would be nice to make this concise with common component, but
+                  CSSTransition doesn't seem to like using "in" from a prop */}
         <CSSTransition
           classNames="fade"
-          timeout={200}
+          timeout={TRANSITION_DURATION}
           unmountOnExit
           style={{position: 'absolute', height: '100%', width: '100%'}}
-          in={!this.state.inWelcomeMode}
+          in={this.state.loginVisible}
         >
           <Grid
             style={{height: '100%', width: '100%', position: 'relative'}}
@@ -112,17 +137,16 @@ export default class Login extends React.Component {
             alignContent="center"
             container
           >
-            <div>
-              {loginComp}
-            </div>
+            {loginComp}
           </Grid>
         </CSSTransition>
 
         <CSSTransition
           classNames="fade"
-          timeout={200}
+          timeout={TRANSITION_DURATION}
           unmountOnExit
-          in={this.state.inWelcomeMode}
+          style={{position: 'absolute', height: '100%', width: '100%'}}
+          in={this.state.welcomeVisible}
         >
           <Grid
             style={{height: '100%', width: '100%', position: 'relative'}}
@@ -130,9 +154,7 @@ export default class Login extends React.Component {
             alignContent="center"
             container
           >
-            <div>
-              {welcomeComp}
-            </div>
+            {welcomeComp}
           </Grid>
         </CSSTransition>
       </div>
