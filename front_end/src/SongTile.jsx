@@ -10,7 +10,7 @@ import {
 import { theme } from './theme'
 
 export default function SongTile (props) {
-  const albumArtSize = '150px'
+  const albumArtSize = theme.images.squareImageHeight
   const metaTextColor = theme.palette.text.secondary
 
   return (

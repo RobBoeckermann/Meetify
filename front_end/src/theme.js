@@ -24,7 +24,10 @@ const theme = createMuiTheme({
       dark: '#110e0e',
       contrastText: '#000',
     },
-  }
+  },
+  images: {
+    squareImageHeight: '150px',
+  },
 })
 
 export { theme }

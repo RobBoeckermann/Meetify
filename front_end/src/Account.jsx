@@ -1,65 +1,81 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import React from 'react'
+import {
+  Card,
+  Grid,
+  Paper,
+  Typography,
+} from '@material-ui/core'
 
-import "./Account.css";
+import './Account.css'
+import { theme } from './theme.js'
+
+const PROFILE_IMG_SIZE = theme.images.squareImageHeight
+
+const TEST_INFO = {
+  username: 'dougydougdoug',
+  displayName: 'Doug Douglas',
+  description: 'Hey! The name\'s Doug, but you can call be "D-D-D-Doug in da Hiz House". Please talk to me.',
+  status: 'Chillin\'',
+  profilePicUrl: 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png',
+}
 
 export default class Account extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+      username: props.username, // Remaining items should be looked up from here?
+      displayName: null,
+      description: null,
+      status: null,
+      profilePicUrl: null,
+    }
   }
 
-  handleClick() {
-    console.log(`Username: ${this.props.username}, password: ${this.props.password}`);
+  componentDidMount () {
+    this.fetchFurtherInfo(this.state.username)
   }
 
-  handleChange(key, event) {
-    const change = {};
-    change[key] = event.target.value;
-    if (this.props.onUpdate) this.props.onUpdate(change);
+  fetchFurtherInfo (username, opts) {
+    // NOTE: Temporarily just using test data
+    this.setState(TEST_INFO)
   }
 
   render () {
-    return (
+    const Header = (() => (
       <Grid
-        className="account-root"
-        justify="center"
-        alignContent="center"
         container
+        justify="center"
+        align="center"
+      // TODO: Background gradient, primary -> black
+        style={{width: '100%', background: theme.palette.primary.dark, margin: 0, display: 'flex'}}
       >
-        <Grid item className="account-grid-item">
-          <h2>
-            Login
-          </h2>
-        </Grid>
-        <Grid item className="account-grid-item" xs={12}>
-          <TextField
-            label="Username"
-            value={this.props.username}
-            onChange={(e) => this.handleChange('username', e)}
+        <Paper style={{width: PROFILE_IMG_SIZE, margin:'8px 24px', display: 'inline-block'}}>
+          <img
+            src={this.state.profilePicUrl}
+            alt={this.state.username + '\'s profile picture'}
+            style={{height: PROFILE_IMG_SIZE}}
           />
-        </Grid>
-        <Grid item className="account-grid-item" xs={12}>
-          <TextField
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            value={this.props.password}
-            onChange={(e) => this.handleChange('password', e)}
-          />
-        </Grid>
-        <Grid item className="account-grid-item" xs={12}>
-          <Button
-            disableElevation
-            color="primary"
-            variant="contained"
-            onClick={() => this.handleClick()}
-          >
-            Login
-          </Button>
-        </Grid>
+        </Paper>
+        <span style={{textAlign: 'left', margin: '8px 24px', display: 'inline-flex', alignItems: 'center'}}>
+          <div>
+            <Typography variant="h5">
+              {this.state.displayName}
+            </Typography>
+            <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
+              {this.state.username}
+            </Typography>
+            <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
+              {this.state.status}
+            </Typography>
+          </div>
+        </span>
       </Grid>
+    ))
+
+    return (
+      <Card style={{padding: 0}}>
+        <Header/>
+      </Card>
     );
   }
 }
