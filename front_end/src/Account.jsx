@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Card,
+  CardMedia,
   Grid,
   Paper,
   Typography,
@@ -59,13 +60,13 @@ export default class Account extends React.Component {
         style={{width: '100%', background: theme.palette.primary.dark, margin: 0}}
       >
         <Grid item container xs={10}>
-          <Paper style={{width: PROFILE_IMG_SIZE, margin: MARGIN, display: 'inline-flex'}}>
-            <img
-              src={this.state.profilePicUrl}
-              alt={this.state.username + '\'s profile picture'}
-              style={{height: PROFILE_IMG_SIZE}}
+          <Card style={{width: PROFILE_IMG_SIZE, margin: MARGIN, display: 'inline-flex'}}>
+            <CardMedia
+              image={this.state.profilePicUrl}
+              title={this.state.username + '\'s profile picture'}
+              style={{height: PROFILE_IMG_SIZE, width: PROFILE_IMG_SIZE}}
             />
-          </Paper>
+          </Card>
           <span style={{textAlign: 'left', margin: MARGIN, display: 'inline-flex', alignItems: 'center'}}>
             <div>
               <Typography variant="h5">
