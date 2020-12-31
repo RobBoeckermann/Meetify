@@ -9,6 +9,13 @@ import {
 import './Account.css'
 import { theme } from './theme.js'
 
+// == CONSTANTS ==
+
+const MAIN_CARD_MAX_WIDTH = '700px'
+const MARGIN = '8px'
+
+// == TEMP TEST STUFF ==
+
 const PROFILE_IMG_SIZE = theme.images.squareImageHeight
 
 const TEST_INFO = {
@@ -18,6 +25,8 @@ const TEST_INFO = {
   status: 'Chillin\'',
   profilePicUrl: 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png',
 }
+
+// == CLASS ==
 
 export default class Account extends React.Component {
   constructor (props) {
@@ -47,35 +56,61 @@ export default class Account extends React.Component {
         justify="center"
         align="center"
       // TODO: Background gradient, primary -> black
-        style={{width: '100%', background: theme.palette.primary.dark, margin: 0, display: 'flex'}}
+        style={{width: '100%', background: theme.palette.primary.dark, margin: 0}}
       >
-        <Paper style={{width: PROFILE_IMG_SIZE, margin:'8px 24px', display: 'inline-block'}}>
-          <img
-            src={this.state.profilePicUrl}
-            alt={this.state.username + '\'s profile picture'}
-            style={{height: PROFILE_IMG_SIZE}}
-          />
-        </Paper>
-        <span style={{textAlign: 'left', margin: '8px 24px', display: 'inline-flex', alignItems: 'center'}}>
-          <div>
-            <Typography variant="h5">
-              {this.state.displayName}
+        <Grid item container xs={10}>
+          <Paper style={{width: PROFILE_IMG_SIZE, margin: MARGIN, display: 'inline-flex'}}>
+            <img
+              src={this.state.profilePicUrl}
+              alt={this.state.username + '\'s profile picture'}
+              style={{height: PROFILE_IMG_SIZE}}
+            />
+          </Paper>
+          <span style={{textAlign: 'left', margin: MARGIN, display: 'inline-flex', alignItems: 'center'}}>
+            <div>
+              <Typography variant="h5">
+                {this.state.displayName}
+              </Typography>
+              <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
+                {this.state.username}
+              </Typography>
+              <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
+                {this.state.status}
+              </Typography>
+            </div>
+          </span>
+        </Grid>
+      </Grid>
+    ))
+
+    const Details = (() => (
+      <Grid
+        container
+        justify="center"
+        align="center"
+      // TODO: Background gradient, primary -> black
+        style={{width: '100%', margin: 0}}
+      >
+        <Grid item container xs={10}>
+          <Paper style={{width: '100%', margin: MARGIN, padding: MARGIN, textAlign: 'left'}}>
+            <Typography variant="h6">
+              Personal Description
             </Typography>
-            <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
-              {this.state.username}
+            <Typography variant="body">
+              {this.state.description}
             </Typography>
-            <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
-              {this.state.status}
-            </Typography>
-          </div>
-        </span>
+          </Paper>
+        </Grid>
       </Grid>
     ))
 
     return (
-      <Card style={{padding: 0}}>
-        <Header/>
-      </Card>
+      <div style={{width: '100%', alignItems: 'middle'}}>
+        <Card style={{padding: 0, maxWidth: MAIN_CARD_MAX_WIDTH, margin: 'auto'}}>
+          <Header/>
+          <Details/>
+        </Card>
+      </div>
     );
   }
 }
