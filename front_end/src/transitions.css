@@ -1,0 +1,31 @@
+/*
+ * Various transitions for general use throughout the app
+ * Primarily intended for usage with React's CSSTransition component
+ * (See: http://reactcommunity.org/react-transition-group/css-transition)
+ *
+ * NOTE: "Appear" transitions are not supported at the moment
+ *
+ * NOTE: Since there are multiple "phases" for each transition, this file could
+ * get large, so please keep the following list updated...
+ *
+ * TODO: Maybe put this in class form with constants so durations are more publicly accessible
+ *
+ * == CURRENTLY ACTIVE TRANSITIONS ==
+ * - "fade"
+ *
+ */
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}

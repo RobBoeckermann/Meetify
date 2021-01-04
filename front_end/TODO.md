@@ -3,11 +3,12 @@
 ## Initial Designs
 1. [ ] Design front-end systems with dummy data
     1. [x] Investigate color schemes (green & pink?)
-    1. [ ] Song tiles
+    1. [x] Song tiles
         1. [x] Base component
-        1. [ ] Clean up / separate into one tile, tile list, etc.
+        1. [x] Clean up / separate into one tile, tile list, etc.
     1. [x] Re-vamp playlist intersection with song tiles
     1. [ ] Add more robust login system w/ animations
+        - Splash screen
         - Don't allow app interaction unless logged in
         - If "remembered", log in and greet with welcome before giving access
     1. [ ] User profile area
