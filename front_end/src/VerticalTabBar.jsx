@@ -14,7 +14,7 @@ export default function VerticalTabBar (props){
     >
       <Tabs
         orientation="vertical"
-        value={props.activeTab || 0}
+        value={props.activeIndex || 0}
       >
         {props.children}
       </Tabs>

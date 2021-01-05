@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import {
   Card,
   CardMedia,
@@ -21,111 +22,85 @@ const BODY_GRADIENT = theme.getGradient([theme.palette.background.default, theme
 
 const PROFILE_IMG_SIZE = theme.images.squareImageHeight
 
-const TEST_INFO = {
-  username: 'dougydougdoug',
-  displayName: 'Doug Douglas',
-  description: 'Hey! The name\'s Doug, but you can call be "D-D-D-Doug in da Hiz House". Please talk to me. '.repeat(10),
-  status: 'Chillin\'',
-  profilePicUrl: 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png',
-}
-
 // == CLASS ==
 
-export default class Account extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      username: props.username, // Remaining items should be looked up from here?
-      displayName: null,
-      description: null,
-      status: null,
-      profilePicUrl: 'placeholder',
-    }
-  }
+// TODO: Rename to Profile (account settings could & should be separate!)
+export default function Account (props) {
+  const username = useSelector((state) => state.account.username)
+  const profile = useSelector((state) => state.account.profile)
 
-  componentDidMount () {
-    this.fetchFurtherInfo(this.state.username)
-  }
-
-  fetchFurtherInfo (username, opts) {
-    // NOTE: Temporarily just using test data
-    this.setState(TEST_INFO)
-  }
-
-  render () {
-    const Header = (() => (
-      <Card style={{width: '100%', background: HEADER_GRADIENT}}>
-        <Grid
-          container
-          justify="center"
-          align="center"
-          style={{width: '100%', margin: 0}}
-        >
-          <Grid item container xs={10}>
-            <Card style={{width: PROFILE_IMG_SIZE, margin: MARGIN, display: 'inline-flex'}}>
-              <CardMedia
-                image={this.state.profilePicUrl}
-                title={this.state.username + '\'s profile picture'}
-                style={{height: PROFILE_IMG_SIZE, width: PROFILE_IMG_SIZE}}
-              />
-            </Card>
-            <span style={{textAlign: 'left', margin: MARGIN, display: 'inline-flex', alignItems: 'center'}}>
-              <div>
-                <Typography variant="h5">
-                  {this.state.displayName}
-                </Typography>
-                <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
-                  {this.state.username}
-                </Typography>
-                <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
-                  {this.state.status}
-                </Typography>
-              </div>
-            </span>
-          </Grid>
-        </Grid>
-      </Card>
-    ))
-
-    const Description = (() => (
+  const Header = (() => (
+    <Card style={{width: '100%', background: HEADER_GRADIENT}}>
       <Grid
         container
         justify="center"
         align="center"
-      // TODO: Background gradient, primary -> black
         style={{width: '100%', margin: 0}}
       >
         <Grid item container xs={10}>
-          <Card
-            style={{width: '100%',
-                    margin: MARGIN,
-                    padding: MARGIN,
-                    textAlign: 'left',}}
-          >
-            <Typography variant="h6">
-              Personal Description
-            </Typography>
-            <Typography variant="body1">
-              {this.state.description}
-            </Typography>
+          <Card style={{width: PROFILE_IMG_SIZE, margin: MARGIN, display: 'inline-flex'}}>
+            <CardMedia
+              image={profile.profilePicUrl}
+              title={username + '\'s profile picture'}
+              style={{height: PROFILE_IMG_SIZE, width: PROFILE_IMG_SIZE}}
+            />
           </Card>
+          <span style={{textAlign: 'left', margin: MARGIN, display: 'inline-flex', alignItems: 'center'}}>
+            <div>
+              <Typography variant="h5">
+                {profile.displayName}
+              </Typography>
+              <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
+                {username}
+              </Typography>
+              <Typography variant="subtitle1" style={{color: theme.palette.text.hint}}>
+                {profile.status}
+              </Typography>
+            </div>
+          </span>
         </Grid>
       </Grid>
-    ))
+    </Card>
+  ))
 
-    return (
-      <div style={{width: '100%', alignItems: 'middle'}}>
+  const Description = (() => (
+    <Grid
+      container
+      justify="center"
+      align="center"
+    // TODO: Background gradient, primary -> black
+      style={{width: '100%', margin: 0}}
+    >
+      <Grid item container xs={10}>
         <Card
-          style={{padding: 0,
-                  maxWidth: MAIN_CARD_MAX_WIDTH,
-                  margin: 'auto',
-                  background: BODY_GRADIENT}}
+          style={{width: '100%',
+                  margin: MARGIN,
+                  padding: MARGIN,
+                  textAlign: 'left',}}
         >
-          {/* TODO: Probably should put all "Grid" type stuff here for easier modifications */}
-          <Header/>
-          <Description/>
+          <Typography variant="h6">
+            Personal Description
+          </Typography>
+          <Typography variant="body1">
+            {profile.description}
+          </Typography>
         </Card>
-      </div>
-    );
-  }
+      </Grid>
+    </Grid>
+  ))
+
+  return (
+    <div style={{width: '100%', alignItems: 'middle'}}>
+      <Card
+        style={{padding: 0,
+                maxWidth: MAIN_CARD_MAX_WIDTH,
+                margin: 'auto',
+                background: BODY_GRADIENT}}
+      >
+        {/* TODO: Probably should put all "Grid" type stuff here for easier modifications */}
+        <Header/>
+        <Description/>
+      </Card>
+    </div>
+  );
 }

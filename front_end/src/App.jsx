@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { Tab, Paper } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/core/styles'
+import { useSelector } from 'react-redux'
 
 import VerticalTabBar from './VerticalTabBar'
 import Account from './Account'
@@ -17,128 +18,70 @@ const TRANSITION_DURATION = 500
 const TAB_CONFIG = [{
   label: 'Intersect',
   val: 'intersect',
+  component: <Intersect/>,
 }, {
   label: 'Account',
-  val: 'account'
+  val: 'account',
+  component: <Account/>,
 }];
 
-export default class App extends React.Component {
-  constructor() {
-    super();
+export default function App () {
+  const loggedIn = useSelector((state) => state.account.loggedIn)
+  const [activeTab, setActiveTab] = useState('intersect')
 
-    this.state = {
-      activeTab: 'intersect',
-      intersect: {
-        userId: '',
-        songs: [],
-      },
-      account: {
-        loggedIn: false,
-        username: '',
-        password: '',
-      }
-    };
+  const getActiveComponent = () => TAB_CONFIG.find(x => x.val === activeTab).component
+  const getActiveComponentIndex = () => TAB_CONFIG.findIndex(x => x.val === activeTab)
 
-    this.intersect = <Intersect/>;
-    this.account = <Account/>;
-  }
+  const tabs = TAB_CONFIG.map((x) => (
+    <Tab
+      key={x.val}
+      label={x.label}
+      onClick={() => setActiveTab(x.val)}
+    />
+  ))
 
-  handleTabClick(v) {
-    this.setState({activeTab: v}) ;
-  }
+  const component = getActiveComponent();
+  const componentIndex = getActiveComponentIndex();
 
-  handleChildChange(obj, stateKey) {
-    const newObj = {};
-    newObj[stateKey]={};
-    Object.assign(newObj[stateKey], this.state[stateKey], obj);
-    this.setState(newObj);
-  }
+  const mainAppComp = (
+    <>
+      <VerticalTabBar className="tab-bar" activeIndex={componentIndex}>
+        {tabs}
+      </VerticalTabBar>
+      <div className="main-container">
+        {component}
+      </div>
+    </>
+  )
 
-  getActiveComponent() {
-    if (this.state.activeTab === 'intersect') {
-      return (
-        <Intersect
-          {...this.state.intersect}
-          onUpdate={(o) => this.handleChildChange(o, 'intersect')}
-        />
-      );
-    } else if (this.state.activeTab === 'account'){
-      return (
-        <Account
-          {...this.state.account}
-          onUpdate={(o) => this.handleChildChange(o, 'account')}
-        />
-      );
-    } else {
-      return null;
-    }
-  }
+  return (
+    <ThemeProvider theme={theme}>
+      <Paper className="app-root" square style={{position:'relative'}}>
+        {/* TODO: Try to make this into generic transition component */}
+        <CSSTransition
+          classNames="fade"
+          timeout={TRANSITION_DURATION}
+          unmountOnExit
+          style={{position: 'absolute', height: '100%', width: '100%'}}
+          in={!loggedIn}
+        >
+          <Login/>
+        </CSSTransition>
 
-  getActiveComponentIndex () {
-    return TAB_CONFIG.findIndex(x => x.val === this.state.activeTab);
-  }
-
-  handleSuccessfulLogin () {
-    // TODO: Nice welcome screen
-    this.setState({account: {loggedIn: true}})
-  }
-
-  render() {
-    // For some reason need to use lambda to keep "this" in context...
-    const loginComp = <Login onSuccess={ () => this.handleSuccessfulLogin () }/>
-
-    const tabs = TAB_CONFIG.map((x) => {
-      return (
-        <Tab
-          key={x.val}
-          label={x.label}
-          onClick={() => this.handleTabClick(x.val)}
-        />
-      );
-    });
-
-    const component = this.getActiveComponent();
-    const componentIndex = this.getActiveComponentIndex();
-
-    const mainAppComp = (
-      <>
-        <VerticalTabBar className="tab-bar" activeTab={componentIndex}>
-          {tabs}
-        </VerticalTabBar>
-        <div className="main-container">
-          {component}
-        </div>
-      </>
-    )
-
-    return (
-      <ThemeProvider theme={theme}>
-        <Paper className="app-root" square style={{position:'relative'}}>
-          <CSSTransition
-            classNames="fade"
-            timeout={TRANSITION_DURATION}
-            unmountOnExit
-            style={{position: 'absolute', height: '100%', width: '100%'}}
-            in={!this.state.account.loggedIn}
-          >
-            {loginComp}
-          </CSSTransition>
-
-          <CSSTransition
-            classNames="fade"
-            timeout={TRANSITION_DURATION}
-            unmountOnExit
-            style={{position: 'absolute', height: '100%', width: '100%'}}
-            in={this.state.account.loggedIn}
-          >
-            <div>
-              <div style={{display: 'flex', height: '100%', width: '100%'}}>
-                {mainAppComp}
-              </div>
+        <CSSTransition
+          classNames="fade"
+          timeout={TRANSITION_DURATION}
+          unmountOnExit
+          style={{position: 'absolute', height: '100%', width: '100%'}}
+          in={loggedIn}
+        >
+          <div>
+            <div style={{display: 'flex', height: '100%', width: '100%'}}>
+              {mainAppComp}
             </div>
-          </CSSTransition>
-        </Paper>
-      </ThemeProvider>
-    );
-  }
+          </div>
+        </CSSTransition>
+      </Paper>
+    </ThemeProvider>
+  );
 }
