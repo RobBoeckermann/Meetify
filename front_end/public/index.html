@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
 
+    <!-- Security policy -->
+    <!-- https://www.electronjs.org/docs/tutorial/security#6-define-a-content-security-policy -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'"/>
+
     <!-- Material UI responsive meta tag -->
     <meta
       name="viewport"
@@ -12,9 +16,6 @@
 
     <!-- Roboto font loading -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-
-    <!-- OG code. TODO: Can probably remove -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
 
     <meta name="theme-color" content="#000000" />
     <meta

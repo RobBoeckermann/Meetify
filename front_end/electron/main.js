@@ -13,9 +13,16 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width:800,
         height:600,
-        show: false,
-        // TODO: TEMPORARY! FIX!
-        webPreferences: {webSecurity: false}
+        show: true,
+
+        // Ensures that (very powerful) electron commands are separate from
+        // the renderer (UI), preventing attacks
+        // https://www.electronjs.org/docs/tutorial/context-isolation
+        contextIsolation: true,
+
+        // NOTE: Originally necessary for communication w/ server at hackathon
+        //       Hopefully will not need when re-integrating
+        // webPreferences: {webSecurity: false}
     });
     const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
 
