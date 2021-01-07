@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { Tab, Paper } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/core/styles'
@@ -54,6 +54,9 @@ export default function App () {
     </>
   )
 
+  const loginRef = useRef(null)
+  const appRef = useRef(null)
+
   return (
     <ThemeProvider theme={theme}>
       <Paper className="app-root" square style={{position:'relative'}}>
@@ -63,9 +66,12 @@ export default function App () {
           timeout={TRANSITION_DURATION}
           unmountOnExit
           style={{position: 'absolute', height: '100%', width: '100%'}}
+          nodeRef={loginRef}
           in={!loggedIn}
         >
-          <Login/>
+          <div ref={loginRef}>
+            <Login/>
+          </div>
         </CSSTransition>
 
         <CSSTransition
@@ -73,9 +79,10 @@ export default function App () {
           timeout={TRANSITION_DURATION}
           unmountOnExit
           style={{position: 'absolute', height: '100%', width: '100%'}}
+          nodeRef={appRef}
           in={loggedIn}
         >
-          <div>
+          <div ref={appRef}>
             <div style={{display: 'flex', height: '100%', width: '100%'}}>
               {mainAppComp}
             </div>

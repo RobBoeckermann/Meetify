@@ -7,7 +7,7 @@
  * - onSuccess() = method to call on successful login
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { Grid, TextField, Button, Typography } from '@material-ui/core'
@@ -104,6 +104,9 @@ export default function Login (props) {
     </>
   )
 
+  const loginRef = useRef(null)
+  const welcomeRef = useRef(null)
+
   // Return final result with transitions prepped between login and welcome screen
   // Note that weird "absolute" / "relative" interactions allow for
   // transitions to happen on top of each other
@@ -118,6 +121,7 @@ export default function Login (props) {
         timeout={TRANSITION_DURATION}
         unmountOnExit
         style={{position: 'absolute', height: '100%', width: '100%'}}
+        nodeRef={loginRef}
         in={loginVisible}
       >
         <Grid
@@ -125,6 +129,7 @@ export default function Login (props) {
           justify="center"
           alignContent="center"
           container
+          ref={loginRef}
         >
           {loginComp}
         </Grid>
@@ -135,6 +140,7 @@ export default function Login (props) {
         timeout={TRANSITION_DURATION}
         unmountOnExit
         style={{position: 'absolute', height: '100%', width: '100%'}}
+        nodeRef={welcomeRef}
         in={welcomeVisible}
       >
         <Grid
@@ -142,6 +148,7 @@ export default function Login (props) {
           justify="center"
           alignContent="center"
           container
+          ref={welcomeRef}
         >
           {welcomeComp}
         </Grid>
