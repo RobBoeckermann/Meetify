@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core'
 
-import { theme } from './theme'
+import { theme } from '../theme'
 
 export default function SongTile (props) {
   const albumArtSize = theme.images.squareImageHeight

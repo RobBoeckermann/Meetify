@@ -1,20 +1,19 @@
 # Meetify Front-end TODO
 
 ## Initial Designs
-1. [ ] Design front-end systems with dummy data
-    1. [x] Investigate color schemes (green & pink?)
-    1. [x] Song tiles
-        1. [x] Base component
-        1. [x] Clean up / separate into one tile, tile list, etc.
-    1. [x] Re-vamp playlist intersection with song tiles
-    1. [x] Add more robust login system w/ animations
-        - Splash screen
-        - Don't allow app interaction unless logged in
-        - If "remembered", log in and greet with welcome before giving access
-    1. [x] User profile area
-    1. [ ] Messaging area
-        1. [ ] Chat selection
-        1. [ ] Chat usage
+1. [x] Investigate color schemes (green & pink?)
+1. [x] Song tiles
+    1. [x] Base component
+    1. [x] Clean up / separate into one tile, tile list, etc.
+1. [x] Re-vamp playlist intersection with song tiles
+1. [x] Add more robust login system w/ animations
+    - Splash screen
+    - Don't allow app interaction unless logged in
+    - If "remembered", log in and greet with welcome before giving access
+1. [x] User profile area
+1. [ ] Messaging area
+    1. [ ] Chat selection
+    1. [ ] Chat usage
 
 ## Boilerplate & Administrative
 1. [x] Investigate Typescript integration
@@ -27,7 +26,8 @@
     - Move theme injection up to index.js
     - Rename "Account" to "Profile"
 1. [ ] Fix NPM vulnerabilities and warnings
-1. [ ] Fix in-house warnings (within electron console)
+1. [x] Fix in-house warnings (within electron console)
+1. [ ] Add react dev tools to Electron?
 
 ## Edge Cases / Refining
 1. [ ] Song Tile

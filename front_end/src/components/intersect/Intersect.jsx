@@ -5,8 +5,7 @@ import { setUserId, importSongs } from './intersectSlice'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
-import SongTile from './SongTile';
-
+import SongTile from '../SongTile';
 
 export default function Intersect (props) {
   // Use state primarily to maintain an internal "cache" when this gets unmounted

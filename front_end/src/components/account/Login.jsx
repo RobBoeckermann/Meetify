@@ -13,8 +13,7 @@ import { CSSTransition } from 'react-transition-group'
 import { Grid, TextField, Button, Typography } from '@material-ui/core'
 
 import { login, setUsername } from './accountSlice'
-import { theme } from './theme'
-import './transitions.css'
+import { theme } from '../../theme'
 
 const TRANSITION_DURATION = 500
 const WELCOME_DURATION = 2000

@@ -2,7 +2,7 @@ import React from 'react';
 import { Paper, Tabs } from '@material-ui/core';
 import './VerticalTabBar.css';
 
-import {theme} from './theme.js'
+import {theme} from '../theme'
 
 export default function VerticalTabBar (props){
   return (

@@ -5,13 +5,12 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
 
 import VerticalTabBar from './VerticalTabBar'
-import Account from './Account'
-import Intersect from './Intersect'
-import Login from './Login'
+import Login from './account/Login'
+import Account from './account/Account'
+import Intersect from './intersect/Intersect'
 
-import { theme } from './theme'
+import { theme } from '../theme'
 import './App.css'
-import './transitions.css'
 
 const TRANSITION_DURATION = 500
 

@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core'
 
 import './Account.css'
-import { theme } from './theme.js'
+import { theme } from '../../theme'
 
 // == CONSTANTS ==
 
