@@ -1,3 +1,11 @@
+/*
+ * Redux slice for containing current user account data
+ * Should be only written to within the Login component
+ * (NOTE: Currently just uses test data)
+ *
+ * Sends to state.account
+ */
+
 import { createSlice } from '@reduxjs/toolkit'
 
 // Temporary test data for the profile

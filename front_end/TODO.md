@@ -28,6 +28,11 @@
 1. [ ] Fix NPM vulnerabilities and warnings
 1. [x] Fix in-house warnings (within electron console)
 1. [ ] Add react dev tools to Electron?
+1. [ ] Style management decisiosn
+    1. [ ] Find a way to default most components to w/h 100% and style further
+           using layout wrappers, allowing for better reusability
+    1. [ ] Investigate integrating [CSS
+           modules](https://github.com/css-modules/css-modules)
 
 ## Edge Cases / Refining
 1. [ ] Song Tile

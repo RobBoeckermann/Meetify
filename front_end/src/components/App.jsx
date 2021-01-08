@@ -1,3 +1,7 @@
+/*
+ * UI component for the main entry point for the app
+ */
+
 import React, { useState, useRef } from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { Tab, Paper } from '@material-ui/core'

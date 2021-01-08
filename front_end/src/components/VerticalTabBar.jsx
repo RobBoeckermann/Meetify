@@ -1,6 +1,13 @@
+/*
+ * Generic UI component for a vertical tab bar
+ *
+ * Props:
+ *   - children = React JSX containing Tab items
+ *   - activeIndex (int) = Index of currently active tab, which is then highlighted
+ */
+
 import React from 'react';
 import { Paper, Tabs } from '@material-ui/core';
-import './VerticalTabBar.css';
 
 import {theme} from '../theme'
 

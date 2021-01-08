@@ -1,3 +1,12 @@
+/*
+ * UI component for viewing logged-in account details
+ * Accesses data from state.account, which should be set upon login
+ *
+ * TODO: Should rename to "Profile", which is more accurate
+ *       Separate "Account" section should more be settings & logistics
+ * TODO: Should have a "editor" mode where sections are editable
+ */
+
 import React from 'react'
 import { useSelector } from 'react-redux'
 import {

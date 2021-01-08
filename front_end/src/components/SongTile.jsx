@@ -1,3 +1,13 @@
+/*
+ * UI component for a single "tile" displaying passed song information
+ *
+ * Props (all Strings):
+ *   - song        (String)
+ *   - artist      (String)
+ *   - album       (String)
+ *   - albumArtUrl (String)
+ */
+
 import React from 'react';
 
 import {

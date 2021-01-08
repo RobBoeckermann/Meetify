@@ -1,10 +1,6 @@
 /*
- * Component for handling logins with a welcome message
- * NOTE: Not yet connected to server; just succeeds whenever for now
- * TODO: Gives "findDOMNode" warning on each animation...
- *
- * Props:
- * - onSuccess() = method to call on successful login
+ * UI component for the opening login screen w/ welcome animation
+ * (NOTE: Currently just uses test data)
  */
 
 import React, { useState, useEffect, useRef } from 'react'

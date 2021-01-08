@@ -1,7 +1,10 @@
-// Redux slice for the Intersect component
-//
-// Should not be used in very many components; primarily here for
-// a "cache" of sorts if the front-end gets unmounted
+/*
+ * Redux slice for the Intersect component, caching the data in case of unmount
+ * and handling server interactions
+ * (NOTE: Currently just uses test data)
+ *
+ * Sends to state.intersect
+ */
 
 // import { getPlaylistIntersect } from './server';
 

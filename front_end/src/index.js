@@ -1,3 +1,8 @@
+/*
+ * App entry-point
+ * Sets up any styles & preferences then displays entry UI component
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 

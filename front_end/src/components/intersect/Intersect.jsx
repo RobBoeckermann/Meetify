@@ -1,3 +1,9 @@
+/*
+ * "Intersect" portion of the app, selectable from the tab bar
+ * Allows current user to intersect their liked songs with another user
+ * (NOTE: Currently just contains test data)
+ */
+
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUserId, importSongs } from './intersectSlice'

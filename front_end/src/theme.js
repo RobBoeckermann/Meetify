@@ -1,5 +1,12 @@
-// Docs at: https://material-ui.com/customization/color/
-// Currently uses Spotify's colors
+/*
+ * Material UI theme and relevant utilities to use across the app
+ *
+ * Color customization:
+ * https://material-ui.com/customization/color/
+ *
+ * All potential theme fields:
+ * https://material-ui.com/customization/default-theme/
+ */
 
 import { createMuiTheme } from '@material-ui/core/styles';
 
