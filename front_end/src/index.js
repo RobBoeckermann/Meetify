@@ -1,14 +1,29 @@
+/*
+ * App entry-point
+ * Sets up any styles & preferences then displays entry UI component
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+
+import './style/index.css';
+import './style/transitions.css';
+
+import App from './components/App';
+import store from './store';
+
+import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
+// import theme from './theme' // TODO: put theme here
 
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline/>
-    <App/>
+    <Provider store={store}>
+      <App/>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

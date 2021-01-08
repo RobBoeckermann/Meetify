@@ -1,4 +1,7 @@
-// Server interaction methods
+/*
+ * Various utility methods for use in connection with the server
+ * (NOTE: Not yet supported or used)
+ */
 
 // const axios = require('axios')
 import axios from 'axios'
