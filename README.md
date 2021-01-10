@@ -1,13 +1,16 @@
 # Meetify Project 
 
-#### Table of Contents - This File
+<details><summary><strong>Table of Contents - This File</strong></summary>
 
 - [Overview](#overview)
     - [Team Members](#team-members)
     - [Advisor](#advisor)
 - [Project Description](#project-description)
 
-#### Table of Contents - Extended Universe
+</details>
+
+<details><summary><strong>Table of Contents - Extended Universe</strong></summary>
+
 - [User Stories](docs/user_stories.md)
 - [Design Diagrams](docs/design_diagrams.pdf)
 - Project Progress
@@ -28,10 +31,16 @@
     - [Jake Steuver](docs/bios/jake-steuver-bio.md)
 - [Appendix](docs/appendix.md)
 
+</details>
+
 ## Overview
 
 **Meetify** is a cross-platform social application for matching users based on
-**Spotify activity**.
+**Spotify activity**. This repository contains the **database code** and
+**documentation** for the Meetify project.
+
+*(For the front-end code, see the [Meetify UI
+repository](https://github.com/segeeslice/Meetify-UI))*
 
 ### Team Members
 **Dustin Seger**  
