@@ -1,6 +1,6 @@
 # Meetify Project 
 
-<details><summary>**Table of Contents - This File**</summary>
+<details><summary><strong>Table of Contents - This File</strong></summary>
 
 - [Overview](#overview)
     - [Team Members](#team-members)
@@ -9,7 +9,7 @@
 
 </details>
 
-<details><summary>**Table of Contents - Extended Universe**</summary>
+<details><summary><strong>Table of Contents - Extended Universe</strong></summary>
 
 - [User Stories](docs/user_stories.md)
 - [Design Diagrams](docs/design_diagrams.pdf)
