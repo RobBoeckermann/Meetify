@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     # 'rest_framework',
     # 'corsheaders',
     # 'students',
@@ -42,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Meetify.apps.MeetifyConfig'
 ]
 
 MIDDLEWARE = [
@@ -86,10 +86,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'meetify',
         'USER': 'root',
-        'PASSWORD': 'CGMltj3K9HHpFCGL', #os.getenv('MEETIFY_SQL_PASS'),
+        'PASSWORD': 'CGMltj3K9HHpFCGL',  # os.getenv('MEETIFY_SQL_PASS'),
         'HOST': '35.221.58.248',
         'PORT': '3306',
-        'TIME_ZONE': 'America/New_York', #https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+        # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+        'TIME_ZONE': 'America/New_York',
     }
 }
 
