@@ -1,8 +1,16 @@
-from django.shortcuts import render
+import json
+from django.http import HttpRequest
+from django.http import HttpResponse
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from django.utils import timezone
 
-# from .models import Liked_Songs
-from .appapi.appapi import intersect_songs
+from . import data_layer as dl
+from . import password as p
+from .models import *
+from .appapi import intersect_songs
+
 
 # Create your views here.
 
@@ -21,3 +29,35 @@ def intersect(request):
               for t in intersection['tracks']]
 
     return JsonResponse({'data': better})
+
+
+@csrf_exempt
+def user_signup(request):
+    body = json.loads(request.body)
+    body['Password'] = p.encrypt(body['Password'])
+    body['META_StartDate'] = timezone.now()
+    dl.insert_user(body)
+    response = HttpResponse()
+    response.status_code = 200
+    return response
+
+
+# @csrf_exempt
+# def get_user(request):
+#     name = request.GET.get('display-name')
+#     user = dl.select_user(name)
+#     response = HttpResponse(user.DisplayName)
+#     response.status_code = 200
+#     return response
+
+
+@csrf_exempt
+def login(request):
+    body = json.loads(request.body)
+    email = body['Email']
+    password = body['Password']
+
+    found_user = dl.select_user(email)
+    if found_user:
+        if p.verify(password, found_user.Password):
+            return JsonResponse(dl.serialize([found_user])[0])
