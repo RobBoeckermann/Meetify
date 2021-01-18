@@ -5,7 +5,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import mysql.connector
 from pprint import pprint
 
-cnx = mysql.connector.connect(user='root', password=os.getenv(
+cnx = mysql.connector.connect(user='admin', password=os.getenv(
     'MEETIFY_SQL_PASS'), host=os.getenv('MEETIFY_SQL_HOST'), database='meetify')
 cursor = cnx.cursor()
 user_api = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'),
