@@ -1,3 +1,4 @@
+import os
 import json
 from django.http import HttpRequest
 from django.http import HttpResponse
@@ -5,14 +6,21 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.db.utils import IntegrityError
+
+import spotipy
 
 from . import data_layer as dl
-from . import password as p
 from .models import *
-from .appapi import intersect_songs
+# from .appapi import intersect_songs
 
 
 # Create your views here.
+
+# TODO - Add support for CSRF tokens so we can remove @csrf_exempt decorators and have better security
+# TODO - Add redirects once we know what pages to go to
 
 
 # def intersect(request):
@@ -21,25 +29,30 @@ from .appapi import intersect_songs
 #     #Liked_Songs.objects.get(user_id=target)
 #     return HttpResponse("Checked user id "+ target)
 
-def intersect(request):
-    target = request.GET.get('target')
-    target2 = request.GET.get('target2')
-    intersection = intersect_songs(target2, target)
-    better = [{'song': t['name'], 'artist': t['album']['artists'][0]['name']}
-              for t in intersection['tracks']]
+# def intersect(request):
+#     target = request.GET.get('target')
+#     target2 = request.GET.get('target2')
+#     intersection = intersect_songs(target2, target)
+#     better = [{'song': t['name'], 'artist': t['album']['artists'][0]['name']}
+#               for t in intersection['tracks']]
 
-    return JsonResponse({'data': better})
+#     return JsonResponse({'data': better})
 
 
 @csrf_exempt
 def user_signup(request):
     body = json.loads(request.body)
-    body['Password'] = p.encrypt(body['Password'])
-    body['META_StartDate'] = timezone.now()
-    dl.insert_user(body)
-    response = HttpResponse()
-    response.status_code = 200
-    return response
+
+    try:
+        user = User.objects.create_user(
+            username=body['Username'], email=body['Email'], password=body['Password'])
+    except IntegrityError as e:
+        return HttpResponse(status=409, reason=e)
+
+    user_info = User_Info(User=user, DisplayName=body['DisplayName'], ZipCode=body['ZipCode'],
+                          ProfilePic=body['ProfilePic'], META_StartDate=timezone.now())
+    user_info.save()
+    return JsonResponse(dl.serialize([user_info])[0])
 
 
 # @csrf_exempt
@@ -52,12 +65,41 @@ def user_signup(request):
 
 
 @csrf_exempt
-def login(request):
+def user_login(request):
     body = json.loads(request.body)
-    email = body['Email']
-    password = body['Password']
+    user = authenticate(username=body['Username'], password=body['Password'])
 
-    found_user = dl.select_user(email)
-    if found_user:
-        if p.verify(password, found_user.Password):
-            return JsonResponse(dl.serialize([found_user])[0])
+    if user:
+        if user is request.user:
+            return HttpResponse()
+        login(request, user)
+        return JsonResponse(dl.serialize([user])[0])
+
+    return HttpResponse(status=401, reason="Invalid login")
+
+
+@csrf_exempt
+def user_logout(request):
+    if request.user is None or not request.user.is_authenticated:
+        return HttpResponse(status=401, reason="Cannot logout: user not logged in")
+    logout(request)
+    return HttpResponse(status=204, reason="Successful logout")
+
+
+@ csrf_exempt
+def user_link_account(request):
+    user_info = User_Info.objects.get(User_id=request.session['userid'])
+    auth = spotipy.oauth2.SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'), client_secret=os.getenv(
+        'SPOTIPY_CLIENT_SECRET'), redirect_uri="http://localhost", scope="user-library-read")
+
+    token = auth.get_access_token()
+    sp = spotipy.Spotify(auth_manager=auth)
+    user_info.SpotifyDisplayName = sp.me()['display_name']
+    user_info.SpotifyUserId = sp.me()['id']
+    user_info.SpotifyAuthToken = token['refresh_token']
+
+    request.session['sp_token'] = token
+    user_info.save(update_fields=['SpotifyDisplayName',
+                                  'SpotifyUserId', 'SpotifyAuthToken'])
+
+    return JsonResponse(dl.serialize([user_info])[0])
