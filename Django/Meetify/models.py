@@ -5,7 +5,7 @@ from datetime import datetime
 #columns default to "not null"
 
 class User_Info(models.Model):
-    User = models.OneToOneField(User, on_delete=models.CASCADE) #can call User_Info.User to use auth_user columns
+    User = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE) #can call User_Info.User to use auth_user columns
     DisplayName = models.CharField(max_length=50)
     SpotifyDisplayName = models.CharField(max_length=150, null=True)
     SpotifyUserId = models.CharField(max_length=150, unique=True, null=True)
@@ -54,12 +54,12 @@ class Messages(models.Model):
     META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
-# class Liked_Songs(models.Model):
-#     class Meta:
-#         unique_together = (('userId', 'songUri'),) #https://stackoverflow.com/questions/28712848/composite-primary-key-in-django
+class Liked_Songs(models.Model):
+    class Meta:
+        unique_together = (('userId', 'songUri'),) #https://stackoverflow.com/questions/28712848/composite-primary-key-in-django
 
-#     userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
-#     songUri = models.CharField(max_length=200)
+    userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
+    songUri = models.CharField(max_length=200)
     
-#     META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
-#     META_EndDate = models.DateTimeField(null=True)
+    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
+    META_EndDate = models.DateTimeField(null=True)
