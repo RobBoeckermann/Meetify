@@ -76,4 +76,4 @@ To accomplish these goals, **Meetify** utilizes the following technologies:
 
 ## Dependencies
 
-- pip install mysql mysql-connector spotipy
+- pip install mysql mysql-connector spotipy pillow

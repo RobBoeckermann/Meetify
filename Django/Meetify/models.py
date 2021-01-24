@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime 
 
 #columns default to "not null"
 
@@ -12,17 +13,17 @@ class User_Info(models.Model):
     ZipCode = models.CharField(max_length=10, null=True)
     ProfilePic = models.ImageField(null=True)
 
-    META_StartDate = models.DateTimeField()
+    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
 class Matches(models.Model):
     MatchId = models.IntegerField(primary_key=True)
-    User1 = models.ForeignKey(User_Info, on_delete=models.CASCADE)
-    User2 = models.ForeignKey(User_Info, on_delete=models.CASCADE)
+    User1 = models.ForeignKey(User_Info, related_name='User1', on_delete=models.CASCADE)
+    User2 = models.ForeignKey(User_Info, related_name='User2', on_delete=models.CASCADE)
     AcceptedByUser1 = models.BooleanField(default=False)
     AcceptedByUser2 = models.BooleanField(default=False)
 
-    META_StartDate = models.DateTimeField()
+    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
     """ (compatibility scores)
@@ -50,15 +51,15 @@ class Messages(models.Model):
     Text = models.CharField(max_length=300) #what should the message limit be?
     SenderUserId = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    META_StartDate = models.DateTimeField()
+    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
-class Liked_Songs(models.Model):
-    class Meta:
-        unique_together = (('userId', 'songUri'),) #https://stackoverflow.com/questions/28712848/composite-primary-key-in-django
+# class Liked_Songs(models.Model):
+#     class Meta:
+#         unique_together = (('userId', 'songUri'),) #https://stackoverflow.com/questions/28712848/composite-primary-key-in-django
 
-    userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
-    songUri = models.CharField(max_length=200)
+#     userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
+#     songUri = models.CharField(max_length=200)
     
-    META_StartDate = models.DateField()
-    META_EndDate = models.DateField()
+#     META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
+#     META_EndDate = models.DateTimeField(null=True)

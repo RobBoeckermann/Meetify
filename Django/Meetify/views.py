@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
-from .models import Liked_Songs
-from .appapi import intersect_songs
+# from .models import Liked_Songs
+from .appapi.appapi import intersect_songs
 
 # Create your views here.
 
