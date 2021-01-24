@@ -70,6 +70,10 @@ matched users to message each other in-house
 To accomplish these goals, **Meetify** utilizes the following technologies:
 
 - [**MySQL**](https://www.mysql.com/) database
-- [**Python**](https://www.python.org/)-based server (via [**Django**](https://www.djangoproject.com/))
+- [**Python 3.7.9**](https://www.python.org/)-based server (via [**Django 3.1.5**](https://www.djangoproject.com/))
 - **HTML/JS** web-based application (via [**React**](https://reactjs.org/))
     - *Written as website; distributed to all major platforms!*
+
+## Dependencies
+
+- pip install mysql mysql-connector spotipy
