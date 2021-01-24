@@ -85,9 +85,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'meetify',
-        'USER': 'root',
-        'PASSWORD': 'CGMltj3K9HHpFCGL',  # os.getenv('MEETIFY_SQL_PASS'),
-        'HOST': '35.221.58.248',
+        'USER': 'admin',
+        'PASSWORD': os.getenv('MEETIFY_SQL_PASS'),
+        'HOST': os.getenv('MEETIFY_SQL_HOST'),
         'PORT': '3306',
         # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
         'TIME_ZONE': 'America/New_York',
