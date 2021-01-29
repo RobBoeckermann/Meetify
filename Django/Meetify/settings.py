@@ -63,7 +63,9 @@ ROOT_URLCONF = 'Meetify.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'Meetify/test.html'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

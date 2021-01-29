@@ -72,7 +72,12 @@ def user_login(request):
     if user:
         if user is request.user:
             return HttpResponse()
+
         login(request, user)
+
+        if User_Info.objects.get(pk=user.pk).SpotifyAuthToken:
+            request.session['sp_token'] = users.refresh_token(User_Info.objects.get(pk=user.pk).SpotifyAuthToken)
+
         return JsonResponse(dl.serialize([user])[0])
 
     return HttpResponse(status=401, reason="Invalid login")
@@ -86,20 +91,34 @@ def user_logout(request):
     return HttpResponse(status=204, reason="Successful logout")
 
 
-@ csrf_exempt
+@csrf_exempt
 def user_link_account(request):
-    user_info = User_Info.objects.get(User_id=request.session['userid'])
-    auth = spotipy.oauth2.SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'), client_secret=os.getenv(
-        'SPOTIPY_CLIENT_SECRET'), redirect_uri="http://localhost", scope="user-library-read")
+    url = users.link_account(request.user.pk)
+    return HttpResponse(url)
+    
 
-    token = auth.get_access_token()
-    sp = spotipy.Spotify(auth_manager=auth)
+@csrf_exempt
+def user_refresh_token(request):
+    users.refresh_token(User_Info.objects.get(pk=request.user.pk).SpotifyAuthToken)
+    return HttpResponse()
+
+
+@csrf_exempt
+def user_callback(request):
+    auth = spotipy.oauth2.SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'), client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'), redirect_uri="http://localhost:8000/user/callback")
+    token = auth.get_access_token(code=request.GET.get('code'))
+    user_info = User_Info.objects.get(pk=request.GET.get('state'))
+
+    sp = spotipy.Spotify(token['access_token'])
     user_info.SpotifyDisplayName = sp.me()['display_name']
     user_info.SpotifyUserId = sp.me()['id']
     user_info.SpotifyAuthToken = token['refresh_token']
 
-    request.session['sp_token'] = token
-    user_info.save(update_fields=['SpotifyDisplayName',
-                                  'SpotifyUserId', 'SpotifyAuthToken'])
+    user_info.save(update_fields=['SpotifyDisplayName', 'SpotifyUserId', 'SpotifyAuthToken'])
 
-    return JsonResponse(dl.serialize([user_info])[0])
+    # TODO - Change this to whatever login confirmation page we actually want, and add to settings.py templates
+    return render(request, 'Meetify/test.html')
+
+
+
+    
