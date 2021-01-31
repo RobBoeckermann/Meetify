@@ -63,6 +63,8 @@ def user_login(request):
         if User_Info.objects.get(pk=user.pk).SpotifyAuthToken:
             request.session['sp_token'] = users.refresh_token(User_Info.objects.get(pk=user.pk).SpotifyAuthToken)
 
+        users.update_liked_songs(request) #TODO move into a different view because it is currently being called on the first login (before linking to spotify) and a link is required to get liked songs.
+
         return JsonResponse(dl.serialize([user])[0])
 
     return HttpResponse(status=401, reason="Invalid login")
