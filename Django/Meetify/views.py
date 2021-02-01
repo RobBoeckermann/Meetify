@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db.utils import IntegrityError
@@ -14,14 +13,13 @@ import spotipy
 
 from . import data_layer as dl
 from .models import *
+from .appapi import users
 # from .appapi import intersect_songs
 
 
 # Create your views here.
 
 # TODO - Add support for CSRF tokens so we can remove @csrf_exempt decorators and have better security
-# TODO - Add redirects once we know what pages to go to
-
 
 # def intersect(request):
 #     target = "0"
@@ -44,24 +42,11 @@ def user_signup(request):
     body = json.loads(request.body)
 
     try:
-        user = User.objects.create_user(
-            username=body['Username'], email=body['Email'], password=body['Password'])
+        user_info = users.signup(body)
     except IntegrityError as e:
         return HttpResponse(status=409, reason=e)
 
-    user_info = User_Info(User=user, DisplayName=body['DisplayName'], ZipCode=body['ZipCode'],
-                          ProfilePic=body['ProfilePic'], META_StartDate=timezone.now())
-    user_info.save()
     return JsonResponse(dl.serialize([user_info])[0])
-
-
-# @csrf_exempt
-# def get_user(request):
-#     name = request.GET.get('display-name')
-#     user = dl.select_user(name)
-#     response = HttpResponse(user.DisplayName)
-#     response.status_code = 200
-#     return response
 
 
 @csrf_exempt
