@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime 
+from django.utils import timezone
 
 #columns default to "not null"
 
@@ -13,7 +13,7 @@ class User_Info(models.Model):
     ZipCode = models.CharField(max_length=10, null=True)
     ProfilePic = models.ImageField(null=True)
 
-    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
+    META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
 class Matches(models.Model):
@@ -23,7 +23,7 @@ class Matches(models.Model):
     AcceptedByUser1 = models.BooleanField(default=False)
     AcceptedByUser2 = models.BooleanField(default=False)
 
-    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
+    META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
     """ (compatibility scores)
@@ -51,7 +51,7 @@ class Messages(models.Model):
     Text = models.CharField(max_length=300) #what should the message limit be?
     SenderUserId = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
+    META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
 class Liked_Songs(models.Model):
@@ -61,5 +61,5 @@ class Liked_Songs(models.Model):
     userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
     songUri = models.CharField(max_length=200)
     
-    META_StartDate = models.DateTimeField(default=datetime.now, blank=True)
+    META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
