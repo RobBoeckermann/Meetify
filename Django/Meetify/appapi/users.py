@@ -55,7 +55,7 @@ def update_liked_songs(request):
             offset = offset + 50
 
     for song in user_liked_songs:
-        if (Liked_Songs.objects.get(Q(userId=user), Q(songUri=song))): #Entry.DoesNotExist #TODO get check working or use filter
+        if not (Liked_Songs.objects.filter(Q(userId=user), Q(songUri=song)).exists()):
             new_record = Liked_Songs(userId=user, songUri=song)
             new_record.save()
         #TODO songs that have been removed from the users Liked Songs on Spotify should be removed from the table. 

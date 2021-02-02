@@ -16,5 +16,6 @@ urlpatterns = [
     path('user/logout', views.user_logout),
     path('user/link-account', views.user_link_account),
     path('user/refresh-token', views.user_refresh_token),
-    path('user/callback', views.user_callback)
+    path('user/callback', views.user_callback),
+    path('user/update-liked-songs', views.user_update_liked_songs)
 ]

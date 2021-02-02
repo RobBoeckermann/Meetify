@@ -109,3 +109,72 @@ def user_callback(request):
 
 
     
+
+@csrf_exempt
+def user_signup(request):
+    body = json.loads(request.body)
+
+    try:
+        user_info = users.signup(body)
+    except IntegrityError as e:
+        return HttpResponse(status=409, reason=e)
+
+    return JsonResponse(dl.serialize([user_info])[0])
+
+
+# @csrf_exempt
+# def get_user(request):
+#     name = request.GET.get('display-name')
+#     user = dl.select_user(name)
+#     response = HttpResponse(user.DisplayName)
+#     response.status_code = 200
+#     return response
+
+
+@csrf_exempt
+def user_login(request):
+    body = json.loads(request.body)
+    user = authenticate(username=body['Username'], password=body['Password'])
+
+    if user:
+        if user is request.user:
+            return HttpResponse()
+
+        login(request, user)
+
+        if User_Info.objects.get(pk=user.pk).SpotifyAuthToken:
+            request.session['sp_token'] = users.refresh_token(User_Info.objects.get(pk=user.pk).SpotifyAuthToken)
+
+        return JsonResponse(dl.serialize([user])[0])
+
+    return HttpResponse(status=401, reason="Invalid login")
+
+
+@csrf_exempt
+def user_logout(request):
+    if request.user is None or not request.user.is_authenticated:
+        return HttpResponse(status=401, reason="Cannot logout: user not logged in")
+    logout(request)
+    return HttpResponse(status=204, reason="Successful logout")
+
+
+@csrf_exempt
+def user_link_account(request):
+    user_info = User_Info.objects.get(pk=request.user.pk)
+
+    (user_info, token) = users.link_account(user_info)
+    request.session['sp_token'] = token
+
+    return JsonResponse(dl.serialize([user_info])[0])
+
+
+@csrf_exempt
+def user_refresh_token(request):
+    users.refresh_token(User_Info.objects.get(pk=request.user.pk).SpotifyAuthToken)
+    return HttpResponse()
+
+
+@csrf_exempt
+def user_update_liked_songs(request):
+    users.update_liked_songs(request)
+    return HttpResponse()
