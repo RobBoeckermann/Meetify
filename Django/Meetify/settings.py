@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'corsheaders',
-    'Meetify.apps.MeetifyConfig'
+    'Meetify.apps.MeetifyConfig',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -93,6 +94,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Meetify.wsgi.application'
+
+ASGI_APPLICATION = 'Meetify.asgi.application'
 
 
 # Database
