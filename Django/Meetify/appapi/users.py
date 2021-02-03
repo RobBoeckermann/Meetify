@@ -36,7 +36,7 @@ def refresh_token(token):
     return new_token
     
 
-#updates the db with any new liked songs from the current user
+#updates the db with any new liked songs from the current user. Not utilizing end dates
 def update_liked_songs(request):
     sp = spotipy.Spotify(request.session['sp_token']['access_token'])
     user = User_Info.objects.get(pk=request.user.pk)
@@ -54,8 +54,25 @@ def update_liked_songs(request):
                 user_liked_songs.append(item["track"]["id"])
             offset = offset + 50
 
-    for song in user_liked_songs:
-        if not (Liked_Songs.objects.filter(Q(userId=user), Q(songUri=song)).exists()):
-            new_record = Liked_Songs(userId=user, songUri=song)
-            new_record.save()
-        #TODO songs that have been removed from the users Liked Songs on Spotify should be removed from the table. 
+    # for test in user_liked_songs:
+    #     print("liked songs " + test)
+
+    db_liked_songs = list(Liked_Songs.objects.filter(userId=user))
+
+    # for test in db_liked_songs:
+    #     print("db songs " + test.songUri)
+    
+    to_be_removed_from_db = set(db_liked_songs) - set(user_liked_songs)
+    to_be_added_to_db = set(user_liked_songs) - set(db_liked_songs)
+
+    # for test in to_be_removed_from_db:
+    #     print("to_be_removed_from_db " + test.songUri)
+    # for test in to_be_added_to_db:
+    #     print("to_be_added_to_db " + test)
+
+    for song in to_be_removed_from_db:
+        Liked_Songs.objects.filter(Q(userId=user), Q(songUri=song.songUri)).delete()
+
+    for song in to_be_added_to_db:
+        new_record = Liked_Songs(userId=user, songUri=song)
+        new_record.save()
