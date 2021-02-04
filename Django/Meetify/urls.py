@@ -8,7 +8,8 @@ urlpatterns = [
 
 
     # INTERSECTION
-    # path('intersection/', views.intersect),
+    path('intersection/liked-songs', views.matching_intersect_users_liked_songs),
+    #path('intersection/playlists', views.), #will be used to intersect two normal playlist ids instead of two liked song playlists
 
     # USERS
     path('user/signup', views.user_signup),
