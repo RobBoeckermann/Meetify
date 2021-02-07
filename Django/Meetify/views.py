@@ -13,7 +13,7 @@ import spotipy
 
 from . import data_layer as dl
 from .models import *
-from .appapi import users
+from .appapi import users, matching, spotify
 # from .appapi import intersect_songs
 
 
@@ -112,5 +112,13 @@ def user_callback(request):
     return render(request, 'Meetify/test.html')
 
 
+@csrf_exempt
+def user_update_liked_songs(request):
+    users.update_liked_songs(request)
+    return HttpResponse()
 
-    
+@csrf_exempt
+def matching_intersect_users_liked_songs(request):
+    song_uris = matching.get_liked_songs_intersection(request)
+    intersection_json = spotify.get_song_info(request, song_uris)
+    return intersection_json

@@ -11,6 +11,7 @@
 
 <details><summary><strong>Table of Contents - Extended Universe</strong></summary>
 
+- [User Documents](docs/user_docs/user_docs.md)
 - [User Stories](docs/user_stories.md)
 - [Design Diagrams](docs/design_diagrams.pdf)
 - Project Progress
@@ -39,8 +40,9 @@
 **Spotify activity**. This repository contains the **database code** and
 **documentation** for the Meetify project.
 
-*(For the front-end code, see the [Meetify UI
-repository](https://github.com/segeeslice/Meetify-UI))*
+For the front-end code, see the [Meetify UI
+repository](https://github.com/segeeslice/Meetify-UI). For user usage
+instructions, see the [user documents](docs/user_docs/user_docs.md).
 
 ### Team Members
 **Dustin Seger**  
