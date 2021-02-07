@@ -34,6 +34,11 @@ def refresh_token(token):
     auth = spotipy.oauth2.SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'), client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'), redirect_uri="http://localhost:8000/user/callback")
     new_token = auth.refresh_access_token(token)
     return new_token
+
+
+def update_profile(user_id, data):
+    User_Info.objects.filter(pk=user_id).update(**data)
+    return User_Info.objects.get(pk=user_id)
     
 
 #updates the db with any new liked songs from the current user. Not utilizing end dates
