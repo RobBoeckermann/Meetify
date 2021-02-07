@@ -126,7 +126,7 @@ Here, you can send messages to and receive messages from the selected user, as w
 
 ![](images/image11.png "Intersect page")
 
-Upon entering another Meetify user’s User ID and clicking** **“**SUBMIT**”, this page will list the songs you have in common with that user. Note that this feature only uses the **Liked Songs** playlist in Spotify.
+Upon entering another Meetify user’s User ID and clicking “**SUBMIT**”, this page will list the songs you have in common with that user. Note that this feature only uses the **Liked Songs** playlist in Spotify.
 
 ### Profile
 
