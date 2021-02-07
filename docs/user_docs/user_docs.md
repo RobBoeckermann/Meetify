@@ -165,7 +165,7 @@ Here, you can make changes to your profile. Once you hit **“SAVE CHANGES”**,
 
 <details><summary>Can I intersect playlists that aren’t my Liked Songs?</summary>
 
-**Not right now, but we plan to add this feature on the “Intersection” page.**
+**Not right now, but we plan to add this feature on the “Intersect” page.**
 </details>
 
 <details><summary>What kind of information does Meetify store about me?</summary>
