@@ -26,7 +26,18 @@ SECRET_KEY = os.getenv('DJANGO_MEETIFY_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Allow for any host from any environment to access the server
+ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_ALLOW_ALL = True
+
+# If we want to in the future, we can specifically whitelist URLS via:
+#
+# ALLOWED_HOSTS=['http://localhost:5000', ...]
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = (
+#        'http://localhost:5000',
+#        ...
+# )
 
 
 # Application definition
@@ -42,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'corsheaders',
     'Meetify.apps.MeetifyConfig'
 ]
 
@@ -55,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 #CORS_ORIGIN_ALLOW_ALL = True
 
