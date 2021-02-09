@@ -22,5 +22,5 @@ urlpatterns = [
     path('user/update-liked-songs', views.user_update_liked_songs),
     path('user/update-top-artists', views.user_update_user_top_artists),
     path('user/update-top-tracks', views.user_update_user_top_tracks),
-    path('user/update-matching-scores', views.user_update_user_matching_scores)
+    path('user/update-audio-features-scores', views.user_update_user_audio_features_scores)
 ]

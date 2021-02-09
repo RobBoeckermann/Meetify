@@ -128,8 +128,8 @@ def user_update_user_top_tracks(request):
     return HttpResponse()
     
 @csrf_exempt
-def user_update_user_matching_scores(request):
-    users.update_user_matching_scores(request)
+def user_update_user_audio_features_scores(request):
+    users.update_user_audio_features_scores(request)
     return HttpResponse()
 
 @csrf_exempt

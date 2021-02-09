@@ -21,7 +21,6 @@ def get_song_info(request, song_uris):
         else:
             end_offset = start_offset + 50
         tracks = sp.tracks(song_uris[start_offset:end_offset], market=None)
-    # while (len(tracks['tracks']) != 0):
         for track in tracks['tracks']:
             song_details = {}
             song_details['song'] = track['name']

@@ -114,10 +114,38 @@ def update_user_top_tracks(request):
             time_range - Over what time frame are the affinities computed Valid-values: short_term, medium_term, long_term """
 
 
-#updates the user's matching scores based on the audio features of their liked songs.
-def update_user_matching_scores(request):
+#updates the user's audio features scores based on the audio features of their liked songs.
+def update_user_audio_features_scores(request):
     sp = spotipy.Spotify(request.session['sp_token']['access_token'])
-    user = User_Info.objects.get(pk=request.user.pk)
+    user_id = User_Info.objects.get(pk=request.user.pk)
+
+    liked_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=user_id)])
+
+    list_len = len(liked_songs)
+    start_offset = 0
+    end_offset = 0
+
+    end = False
+    if list_len == 0:
+        end = True
+
+    while (end == False):
+        if (list_len < 100):
+            end_offset = start_offset + list_len
+        else:
+            end_offset = start_offset + 100
+        tracks = sp.audio_features(liked_songs[start_offset:end_offset])
+        
+        #for each liked song, add the feature value to the value on the audio features table. The table's feature value can then be divided by the number of liked songs to determine the user's average value for that feature.
+        
+        #for track in tracks:
+
+
+
+        list_len -= 100
+        start_offset += 100
+        if (list_len < 1):
+            end = True
     
 
 
