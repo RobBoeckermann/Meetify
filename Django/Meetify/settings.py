@@ -26,18 +26,20 @@ SECRET_KEY = os.getenv('DJANGO_MEETIFY_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Allow for any host from any environment to access the server
-ALLOWED_HOSTS = ['*']
-CORS_ORIGIN_ALLOW_ALL = True
+# Allow for dev hosts to access server
+ALLOWED_HOSTS = ['localhost']
 
-# If we want to in the future, we can specifically whitelist URLS via:
-#
-# ALLOWED_HOSTS=['http://localhost:5000', ...]
-# CORS_ORIGIN_ALLOW_ALL = False
-# CORS_ORIGIN_WHITELIST = (
-#        'http://localhost:5000',
-#        ...
-# )
+# CORS (Cross-origin request) Control
+# https://gist.github.com/mk123/4e7709a4a720a458b4551b15c1077ccf
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000', # Front-end server
+    'http://localhost:8000', # Django server
+)
+
+# Disable HTTP-only to ensure cookies are retrievable by JavaScript on front-end
+SESSION_COOKIE_HTTPONLY = False
+CSRF_COOKIE_HTTPONLY = False
 
 
 # Application definition
