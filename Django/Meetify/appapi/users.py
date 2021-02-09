@@ -118,23 +118,12 @@ def update_user_top_tracks(request):
 def update_user_matching_scores(request):
     sp = spotipy.Spotify(request.session['sp_token']['access_token'])
     user = User_Info.objects.get(pk=request.user.pk)
+    
+
+
     return True
     """ audio_features(tracks=[])
 
     Get audio features for one or multiple tracks based upon their Spotify IDs Parameters:
 
             tracks - a list of track URIs, URLs or IDs, maximum: 100 ids """
-
-
-#updates the user's profile info
-def update_user_profile_info(request):
-    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
-    user = User_Info.objects.get(pk=request.user.pk)
-    return True
-    """ user(user)
-
-    Gets basic profile information about a Spotify User
-
-    Parameters:
-
-            user - the id of the usr """

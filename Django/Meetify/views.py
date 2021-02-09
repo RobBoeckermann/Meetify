@@ -133,11 +133,6 @@ def user_update_user_matching_scores(request):
     return HttpResponse()
 
 @csrf_exempt
-def user_update_user_profile_info(request):
-    users.update_user_profile_info(request)
-    return HttpResponse()
-
-@csrf_exempt
 def matching_intersect_users_liked_songs(request):
     song_uris = matching.get_liked_songs_intersection(request)
     intersection_json = spotify.get_song_info(request, song_uris)

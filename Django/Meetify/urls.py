@@ -19,5 +19,8 @@ urlpatterns = [
     path('user/refresh-token', views.user_refresh_token),
     path('user/update-profile', views.user_update_profile),
     path('user/callback', views.user_callback),
-    path('user/update-liked-songs', views.user_update_liked_songs)
+    path('user/update-liked-songs', views.user_update_liked_songs),
+    path('user/update-top-artists', views.user_update_user_top_artists),
+    path('user/update-top-tracks', views.user_update_user_top_tracks),
+    path('user/update-matching-scores', views.user_update_user_matching_scores)
 ]
