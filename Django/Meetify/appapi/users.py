@@ -81,3 +81,60 @@ def update_liked_songs(request):
     for song in to_be_added_to_db:
         new_record = Liked_Songs(userId=user, songUri=song)
         new_record.save()
+
+#updates the db with the user's top artists in the short, medium, and long term
+def update_user_top_artists(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    user = User_Info.objects.get(pk=request.user.pk)
+    return True
+    """ current_user_top_artists(limit=20, offset=0, time_range='medium_term')
+
+    Get the current user’s top artists
+
+    Parameters:
+
+            limit - the number of entities to return
+            offset - the index of the first entity to return
+            time_range - Over what time frame are the affinities computed Valid-values: short_term, medium_term, long_term """
+
+
+#updates the db with the user's top tracks in the short, medium, and long term
+def update_user_top_tracks(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    user = User_Info.objects.get(pk=request.user.pk)
+    return True
+    """ current_user_top_tracks(limit=20, offset=0, time_range='medium_term')
+
+    Get the current user’s top tracks
+
+    Parameters:
+
+            limit - the number of entities to return
+            offset - the index of the first entity to return
+            time_range - Over what time frame are the affinities computed Valid-values: short_term, medium_term, long_term """
+
+
+#updates the user's matching scores based on the audio features of their liked songs.
+def update_user_matching_scores(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    user = User_Info.objects.get(pk=request.user.pk)
+    return True
+    """ audio_features(tracks=[])
+
+    Get audio features for one or multiple tracks based upon their Spotify IDs Parameters:
+
+            tracks - a list of track URIs, URLs or IDs, maximum: 100 ids """
+
+
+#updates the user's profile info
+def update_user_profile_info(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    user = User_Info.objects.get(pk=request.user.pk)
+    return True
+    """ user(user)
+
+    Gets basic profile information about a Spotify User
+
+    Parameters:
+
+            user - the id of the usr """
