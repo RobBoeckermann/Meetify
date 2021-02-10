@@ -63,3 +63,18 @@ class Liked_Songs(models.Model):
     
     META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
+
+class Audio_Features(models.Model):
+    userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
+    acousticness = models.DecimalField()
+    danceability = models.DecimalField()
+    energy = models.DecimalField()
+    instrumentalness = models.DecimalField()
+    loudness = models.DecimalField()
+    speechiness = models.DecimalField()
+    tempo = models.DecimalField()
+    valence = models.DecimalField()
+    number_of_liked_songs = models.IntegerField()
+    
+    META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
+    META_EndDate = models.DateTimeField(null=True)
