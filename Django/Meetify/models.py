@@ -66,15 +66,15 @@ class Liked_Songs(models.Model):
 
 class Audio_Features(models.Model):
     userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
-    acousticness = models.DecimalField()
-    danceability = models.DecimalField()
-    energy = models.DecimalField()
-    instrumentalness = models.DecimalField()
-    loudness = models.DecimalField()
-    speechiness = models.DecimalField()
-    tempo = models.DecimalField()
-    valence = models.DecimalField()
-    number_of_liked_songs = models.IntegerField()
+    acousticness = models.DecimalField(max_digits=7, decimal_places=2)
+    danceability = models.DecimalField(max_digits=7, decimal_places=2)
+    energy = models.DecimalField(max_digits=7, decimal_places=2)
+    instrumentalness = models.DecimalField(max_digits=7, decimal_places=2)
+    loudness = models.DecimalField(max_digits=7, decimal_places=2)
+    speechiness = models.DecimalField(max_digits=7, decimal_places=2)
+    tempo = models.DecimalField(max_digits=7, decimal_places=2)
+    valence = models.DecimalField(max_digits=7, decimal_places=2)
+    number_of_liked_songs = models.IntegerField() #TODO: make max 99999
     
     META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)

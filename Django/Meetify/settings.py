@@ -46,7 +46,6 @@ CSRF_COOKIE_HTTPONLY = False
 
 INSTALLED_APPS = [
     # 'rest_framework',
-    # 'corsheaders',
     # 'students',
     'django.contrib.admin',
     'django.contrib.auth',
