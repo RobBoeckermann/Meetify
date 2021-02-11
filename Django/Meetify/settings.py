@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('DJANGO_MEETIFY_SECRET_KEY')
 DEBUG = True
 
 # Allow for dev hosts to access server
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # CORS (Cross-origin request) Control
 # https://gist.github.com/mk123/4e7709a4a720a458b4551b15c1077ccf
