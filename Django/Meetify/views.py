@@ -89,10 +89,22 @@ def user_refresh_token(request):
 
 
 @csrf_exempt
-def user_update_profile(request):
-    body = json.loads(request.body)
-    user = users.update_profile(request.user.pk, body)
-    return JsonResponse(dl.serialize([user])[0])
+def user_profile(request, user_id):
+    if request.method == 'POST':
+        if user_id is not request.user.pk:
+            return HttpResponse(status=401, reason="User must be logged in to update profile")
+
+        body = json.loads(request.body)
+        user = users.update_profile(user_id, body)
+        return JsonResponse(dl.serialize([user])[0])
+
+    elif request.method == 'GET':
+        user = users.get_profile(user_id)
+        if not user:
+            return HttpResponse(status=404, reason="User not found")
+        return JsonResponse(dl.serialize([user])[0])
+
+    return HttpResponse(status=405, reason="Invalid request method")
 
 
 @csrf_exempt

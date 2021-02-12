@@ -43,7 +43,15 @@ def refresh_token(token):
 def update_profile(user_id, data):
     User_Info.objects.filter(pk=user_id).update(**data)
     return User_Info.objects.get(pk=user_id)
+
+
+def get_profile(user_id):
+    try:
+        return User_Info.objects.get(pk=user_id)
     
+    except User_Info.DoesNotExist:
+        return None
+
 
 #updates the db with any new liked songs from the current user. Not utilizing end dates
 def update_liked_songs(request):
