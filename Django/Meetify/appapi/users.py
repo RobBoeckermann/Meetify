@@ -6,15 +6,18 @@ import requests
 import spotipy
 from django.db.models import Q
 
-from ..models import User_Info, Liked_Songs
+from ..models import Audio_Features, User_Info, Liked_Songs
 
 
 def signup(data):
     user = User.objects.create_user(username=data['Username'], email=data['Email'], password=data['Password'])
 
     user_info = User_Info(User=user, DisplayName=data['DisplayName'], ZipCode=data['ZipCode'], ProfilePic=data['ProfilePic'])
-
     user_info.save()
+
+    features = Audio_Features(userId=user, acousticness=0, danceability=0, energy=0, instrumentalness=0, loudness=0, speechiness=0, tempo=0, valence=0, number_of_liked_songs=0)
+    features.save()
+
     return user_info
 
 
@@ -121,6 +124,8 @@ def update_user_audio_features_scores(request):
 
     liked_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=user_id)])
 
+    temp_acousticness, temp_danceability, temp_energy, temp_instrumentalness,temp_loudness, temp_speechiness, temp_tempo, temp_valence, temp_number_of_liked_songs = 0, 0, 0, 0, 0, 0, 0, 0, 0
+
     list_len = len(liked_songs)
     start_offset = 0
     end_offset = 0
@@ -134,13 +139,21 @@ def update_user_audio_features_scores(request):
             end_offset = start_offset + list_len
         else:
             end_offset = start_offset + 100
+
         tracks = sp.audio_features(liked_songs[start_offset:end_offset])
         
         #for each liked song, add the feature value to the value on the audio features table. The table's feature value can then be divided by the number of liked songs to determine the user's average value for that feature.
         
-        #for track in tracks:
-
-
+        for track in tracks:
+            temp_acousticness += track['acousticness']
+            temp_danceability += track['danceability']
+            temp_energy += track['energy']
+            temp_instrumentalness += track['instrumentalness']
+            temp_loudness += track['loudness']
+            temp_speechiness += track['speechiness']
+            temp_tempo += track['tempo']
+            temp_valence += track['valence']
+            temp_number_of_liked_songs += 1
 
         list_len -= 100
         start_offset += 100
@@ -148,6 +161,7 @@ def update_user_audio_features_scores(request):
             end = True
     
 
+    Audio_Features.objects.filter(userId_id=user_id).update(acousticness=temp_acousticness, danceability=temp_danceability, energy=temp_energy, instrumentalness=temp_instrumentalness, loudness=temp_loudness, speechiness=temp_speechiness, tempo=temp_tempo, valence=temp_valence, number_of_liked_songs=temp_number_of_liked_songs)
 
     return True
     """ audio_features(tracks=[])
