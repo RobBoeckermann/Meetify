@@ -137,3 +137,8 @@ def matching_intersect_users_liked_songs(request):
     song_uris = matching.get_liked_songs_intersection(request)
     intersection_json = spotify.get_song_info(request, song_uris)
     return intersection_json
+
+@csrf_exempt
+def user_update_matches(request):
+    users.update_user_matches(request)
+    return HttpResponse()

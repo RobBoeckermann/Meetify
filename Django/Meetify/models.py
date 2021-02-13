@@ -23,6 +23,15 @@ class Matches(models.Model):
     AcceptedByUser1 = models.BooleanField(default=False)
     AcceptedByUser2 = models.BooleanField(default=False)
 
+    acousticness = models.DecimalField(max_digits=7, decimal_places=2)
+    danceability = models.DecimalField(max_digits=7, decimal_places=2)
+    energy = models.DecimalField(max_digits=7, decimal_places=2)
+    instrumentalness = models.DecimalField(max_digits=7, decimal_places=2)
+    loudness = models.DecimalField(max_digits=7, decimal_places=2)
+    speechiness = models.DecimalField(max_digits=7, decimal_places=2)
+    tempo = models.DecimalField(max_digits=7, decimal_places=2)
+    valence = models.DecimalField(max_digits=7, decimal_places=2)
+
     META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
 
@@ -78,3 +87,17 @@ class Audio_Features(models.Model):
     
     META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
+
+    def get_audio_features_scores(self):
+        "Returns dictionary of user's average score for each feature."
+        dict = {
+            "acousticness": self.acousticness/self.number_of_liked_songs,
+            "danceability": self.danceability/self.number_of_liked_songs,
+            "energy": self.energy/self.number_of_liked_songs,
+            "instrumentalness": self.instrumentalness/self.number_of_liked_songs,
+            "loudness": self.loudness/self.number_of_liked_songs,
+            "speechiness": self.speechiness/self.number_of_liked_songs,
+            "tempo": self.tempo/self.number_of_liked_songs,
+            "valence": self.valence/self.number_of_liked_songs
+        }
+        return dict

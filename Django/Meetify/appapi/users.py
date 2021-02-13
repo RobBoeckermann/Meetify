@@ -6,7 +6,7 @@ import requests
 import spotipy
 from django.db.models import Q
 
-from ..models import Audio_Features, User_Info, Liked_Songs
+from ..models import Audio_Features, User_Info, Liked_Songs, Matches
 
 
 def signup(data):
@@ -169,3 +169,55 @@ def update_user_audio_features_scores(request):
     Get audio features for one or multiple tracks based upon their Spotify IDs Parameters:
 
             tracks - a list of track URIs, URLs or IDs, maximum: 100 ids """
+
+
+#compares current user to all meetify users they have not been compared to yet. Creates new Match records for these pairings.
+def update_user_matches(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    user_id = User_Info.objects.get(pk=request.user.pk)
+
+    existing_matches = Matches.objects.filter(Q(User1=user_id) | Q(User2=user_id))
+    matched_user_ids = []
+    for match in existing_matches:
+        if (match['User1']!=user_id):
+            matched_user_ids.append(match['User1'])
+        else:
+            matched_user_ids.append(match['User2'])
+    all_users = User_Info.objects.all()
+    unmatched_users = []
+    matched_user_ids.append(user_id) #so that the current user is not matched with themselves.
+    for user in all_users:
+        if (user.User_id not in matched_user_ids):
+            unmatched_users.append(user.User_id)
+
+    for user in unmatched_users:
+        feature_differences = get_feature_differences(user_id, user)
+        features = Matches(User1=user_id, User2=user, 
+            acousticness=feature_differences['acousticness'],
+            danceability=feature_differences['danceability'],
+            energy=feature_differences['energy'],
+            instrumentalness=feature_differences['instrumentalness'],
+            loudness=feature_differences['loudness'],
+            speechiness=feature_differences['speechiness'],
+            tempo=feature_differences['tempo'],
+            valence=feature_differences['valence']
+            )
+        features.save()
+
+    return True
+
+#returns the differences between two user's audio feature scores.
+def get_feature_differences(user1, user2):
+    user1_scores = Audio_Features.objects.get(userId=user1)
+    user2_scores = Audio_Features.objects.get(userId=user2)
+    dict = {
+            "acousticness": abs(user1_scores['acousticness'] - user2_scores['acousticness']),
+            "danceability": abs(user1_scores['danceability'] - user2_scores['danceability']),
+            "energy": abs(user1_scores['energy'] - user2_scores['energy']),
+            "instrumentalness": abs(user1_scores['instrumentalness'] - user2_scores['instrumentalness']),
+            "loudness": abs(user1_scores['loudness'] - user2_scores['loudness']),
+            "speechiness": abs(user1_scores['speechiness'] - user2_scores['speechiness']),
+            "tempo": abs(user1_scores['tempo'] - user2_scores['tempo']),
+            "valence": abs(user1_scores['valence'] - user2_scores['valence'])
+        }
+    return dict
