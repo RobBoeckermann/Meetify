@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 import requests
 import spotipy
+import decimal
 from django.db.models import Q
 
 from ..models import Audio_Features, User_Info, Liked_Songs, Matches
@@ -14,9 +15,6 @@ def signup(data):
 
     user_info = User_Info(User=user, DisplayName=data['DisplayName'], ZipCode=data['ZipCode'], ProfilePic=data['ProfilePic'])
     user_info.save()
-
-    features = Audio_Features(userId=user, acousticness=0, danceability=0, energy=0, instrumentalness=0, loudness=0, speechiness=0, tempo=0, valence=0, number_of_liked_songs=0)
-    features.save()
 
     return user_info
 
@@ -29,6 +27,9 @@ def link_account(user_id):
 
     #TODO - This print is just for ease of use in dev. It can (and probably should) be removed in prod.
     print(response.url)
+
+    features = Audio_Features(userId_id=user_id, acousticness=0, danceability=0, energy=0, instrumentalness=0, loudness=0, speechiness=0, tempo=0, valence=0, number_of_liked_songs=0)
+    features.save()
 
     return response.url
 
@@ -161,7 +162,16 @@ def update_user_audio_features_scores(request):
             end = True
     
 
-    Audio_Features.objects.filter(userId_id=user_id).update(acousticness=temp_acousticness, danceability=temp_danceability, energy=temp_energy, instrumentalness=temp_instrumentalness, loudness=temp_loudness, speechiness=temp_speechiness, tempo=temp_tempo, valence=temp_valence, number_of_liked_songs=temp_number_of_liked_songs)
+    Audio_Features.objects.filter(userId_id=user_id).update(
+        acousticness=round(temp_acousticness, 2), 
+        danceability=round(temp_danceability, 2), 
+        energy=round(temp_energy, 2), 
+        instrumentalness=round(temp_instrumentalness, 2), 
+        loudness=round(temp_loudness, 2), 
+        speechiness=round(temp_speechiness, 2), 
+        tempo=round(temp_tempo, 2), 
+        valence=round(temp_valence, 2), 
+        number_of_liked_songs=temp_number_of_liked_songs)
 
     return True
     """ audio_features(tracks=[])
@@ -179,20 +189,20 @@ def update_user_matches(request):
     existing_matches = Matches.objects.filter(Q(User1=user_id) | Q(User2=user_id))
     matched_user_ids = []
     for match in existing_matches:
-        if (match['User1']!=user_id):
-            matched_user_ids.append(match['User1'])
+        if (match.User1!=user_id):
+            matched_user_ids.append(match.User1.User_id)
         else:
-            matched_user_ids.append(match['User2'])
+            matched_user_ids.append(match.User2.User_id)
     all_users = User_Info.objects.all()
     unmatched_users = []
-    matched_user_ids.append(user_id) #so that the current user is not matched with themselves.
+    matched_user_ids.append(user_id.User_id) #so that the current user is not matched with themselves.
     for user in all_users:
         if (user.User_id not in matched_user_ids):
             unmatched_users.append(user.User_id)
 
     for user in unmatched_users:
         feature_differences = get_feature_differences(user_id, user)
-        features = Matches(User1=user_id, User2=user, 
+        features = Matches(User1=user_id, User2=User_Info.objects.get(pk=user), 
             acousticness=feature_differences['acousticness'],
             danceability=feature_differences['danceability'],
             energy=feature_differences['energy'],
@@ -211,13 +221,13 @@ def get_feature_differences(user1, user2):
     user1_scores = Audio_Features.objects.get(userId=user1)
     user2_scores = Audio_Features.objects.get(userId=user2)
     dict = {
-            "acousticness": abs(user1_scores['acousticness'] - user2_scores['acousticness']),
-            "danceability": abs(user1_scores['danceability'] - user2_scores['danceability']),
-            "energy": abs(user1_scores['energy'] - user2_scores['energy']),
-            "instrumentalness": abs(user1_scores['instrumentalness'] - user2_scores['instrumentalness']),
-            "loudness": abs(user1_scores['loudness'] - user2_scores['loudness']),
-            "speechiness": abs(user1_scores['speechiness'] - user2_scores['speechiness']),
-            "tempo": abs(user1_scores['tempo'] - user2_scores['tempo']),
-            "valence": abs(user1_scores['valence'] - user2_scores['valence'])
+            "acousticness": abs(user1_scores.acousticness - user2_scores.acousticness),
+            "danceability": abs(user1_scores.danceability - user2_scores.danceability),
+            "energy": abs(user1_scores.energy - user2_scores.energy),
+            "instrumentalness": abs(user1_scores.instrumentalness - user2_scores.instrumentalness),
+            "loudness": abs(user1_scores.loudness - user2_scores.loudness),
+            "speechiness": abs(user1_scores.speechiness - user2_scores.speechiness),
+            "tempo": abs(user1_scores.tempo - user2_scores.tempo),
+            "valence": abs(user1_scores.valence - user2_scores.valence)
         }
     return dict

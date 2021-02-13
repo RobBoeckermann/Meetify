@@ -17,20 +17,21 @@ class User_Info(models.Model):
     META_EndDate = models.DateTimeField(null=True)
 
 class Matches(models.Model):
-    MatchId = models.IntegerField(primary_key=True)
+    class Meta:
+        unique_together = (('User1', 'User2'),)
     User1 = models.ForeignKey(User_Info, related_name='User1', on_delete=models.CASCADE)
     User2 = models.ForeignKey(User_Info, related_name='User2', on_delete=models.CASCADE)
     AcceptedByUser1 = models.BooleanField(default=False)
     AcceptedByUser2 = models.BooleanField(default=False)
 
-    acousticness = models.DecimalField(max_digits=7, decimal_places=2)
-    danceability = models.DecimalField(max_digits=7, decimal_places=2)
-    energy = models.DecimalField(max_digits=7, decimal_places=2)
-    instrumentalness = models.DecimalField(max_digits=7, decimal_places=2)
-    loudness = models.DecimalField(max_digits=7, decimal_places=2)
-    speechiness = models.DecimalField(max_digits=7, decimal_places=2)
-    tempo = models.DecimalField(max_digits=7, decimal_places=2)
-    valence = models.DecimalField(max_digits=7, decimal_places=2)
+    acousticness = models.DecimalField(max_digits=10, decimal_places=2)
+    danceability = models.DecimalField(max_digits=10, decimal_places=2)
+    energy = models.DecimalField(max_digits=10, decimal_places=2)
+    instrumentalness = models.DecimalField(max_digits=10, decimal_places=2)
+    loudness = models.DecimalField(max_digits=10, decimal_places=2)
+    speechiness = models.DecimalField(max_digits=10, decimal_places=2)
+    tempo = models.DecimalField(max_digits=10, decimal_places=2)
+    valence = models.DecimalField(max_digits=10, decimal_places=2)
 
     META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
@@ -75,14 +76,14 @@ class Liked_Songs(models.Model):
 
 class Audio_Features(models.Model):
     userId = models.ForeignKey(User_Info, on_delete=models.CASCADE)
-    acousticness = models.DecimalField(max_digits=7, decimal_places=2)
-    danceability = models.DecimalField(max_digits=7, decimal_places=2)
-    energy = models.DecimalField(max_digits=7, decimal_places=2)
-    instrumentalness = models.DecimalField(max_digits=7, decimal_places=2)
-    loudness = models.DecimalField(max_digits=7, decimal_places=2)
-    speechiness = models.DecimalField(max_digits=7, decimal_places=2)
-    tempo = models.DecimalField(max_digits=7, decimal_places=2)
-    valence = models.DecimalField(max_digits=7, decimal_places=2)
+    acousticness = models.DecimalField(max_digits=10, decimal_places=2)
+    danceability = models.DecimalField(max_digits=10, decimal_places=2)
+    energy = models.DecimalField(max_digits=10, decimal_places=2)
+    instrumentalness = models.DecimalField(max_digits=10, decimal_places=2)
+    loudness = models.DecimalField(max_digits=10, decimal_places=2)
+    speechiness = models.DecimalField(max_digits=10, decimal_places=2)
+    tempo = models.DecimalField(max_digits=10, decimal_places=2)
+    valence = models.DecimalField(max_digits=10, decimal_places=2)
     number_of_liked_songs = models.IntegerField() #TODO: make max 99999
     
     META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
