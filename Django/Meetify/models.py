@@ -8,6 +8,7 @@ class User_Info(models.Model):
     User = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE) #can call User_Info.User to use auth_user columns
     DisplayName = models.CharField(max_length=50)
     SpotifyDisplayName = models.CharField(max_length=150, null=True)
+    Description = models.CharField(max_length=500, null=True)
     SpotifyUserId = models.CharField(max_length=150, unique=True, null=True)
     SpotifyAuthToken = models.CharField(max_length=200, null=True)
     ZipCode = models.CharField(max_length=10, null=True)

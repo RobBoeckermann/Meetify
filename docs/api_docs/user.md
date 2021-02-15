@@ -31,8 +31,14 @@
 - Logs user out of Meetify
 - Ends user session
 
-#### `PATCH user/update-profile`
-- Updates the profile information for the Meetify user that is currently logged in
+#### `user/{id}/profile`
+`GET`
+- Retrieves user profile data for the requested id
+- Does not require authentication
+
+`POST`
+- Updates user profile data for the requested id
+- Requires the requested user to be logged in
 - Sample `POST` body:
 ```
 {
