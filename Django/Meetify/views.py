@@ -11,9 +11,9 @@ from django.db.utils import IntegrityError
 
 import spotipy
 
-from . import data_layer as dl
 from .models import *
 from .appapi import users, matching, spotify
+from .serializers import *
 # from .appapi import intersect_songs
 
 
@@ -46,7 +46,8 @@ def user_signup(request):
     except IntegrityError as e:
         return HttpResponse(status=409, reason=e)
 
-    return JsonResponse(dl.serialize([user_info])[0])
+    ser = UserInfoSerializer(user_info)
+    return JsonResponse(ser.data)
 
 
 @csrf_exempt
@@ -63,7 +64,8 @@ def user_login(request):
         if User_Info.objects.get(pk=user.pk).SpotifyAuthToken:
             request.session['sp_token'] = users.refresh_token(User_Info.objects.get(pk=user.pk).SpotifyAuthToken)
 
-        return JsonResponse(dl.serialize([user])[0])
+        ser = UserSerializer(user)
+        return JsonResponse(ser.data)
 
     return HttpResponse(status=401, reason="Invalid login")
 
@@ -89,10 +91,26 @@ def user_refresh_token(request):
 
 
 @csrf_exempt
-def user_update_profile(request):
-    body = json.loads(request.body)
-    user = users.update_profile(request.user.pk, body)
-    return JsonResponse(dl.serialize([user])[0])
+def user_profile(request, user_id):
+    if request.method == 'POST':
+        if user_id is not request.user.pk:
+            return HttpResponse(status=401, reason="User must be logged in to update profile")
+
+        body = json.loads(request.body)
+        user = users.update_profile(user_id, body)
+
+        ser = UserInfoSerializer(user)
+        return JsonResponse(ser.data)
+
+    elif request.method == 'GET':
+        user = users.get_profile(user_id)
+        if not user:
+            return HttpResponse(status=404, reason="User not found")
+
+        ser = UserInfoSerializer(user)
+        return JsonResponse(ser.data)
+
+    return HttpResponse(status=405, reason="Invalid request method")
 
 
 @csrf_exempt
