@@ -131,6 +131,18 @@ def user_callback(request):
 
 
 @csrf_exempt
+def user_is_linked(request):
+    if request.method == 'GET':
+        user_info = User_Info.objects.get(pk=request.user.pk)
+        if user_info.SpotifyUserId:
+            return HttpResponse(True)
+    
+        return HttpResponse(False)
+
+    return HttpResponse(status=405, reason="Invalid request method")
+
+
+@csrf_exempt
 def user_update_liked_songs(request):
     users.update_liked_songs(request)
     return HttpResponse()
