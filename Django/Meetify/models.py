@@ -58,7 +58,7 @@ class Messages(models.Model):
         unique_together = (('MatchId', 'MessageNumber'),)
 
     MatchId = models.ForeignKey(Matches, on_delete=models.CASCADE)
-    MessageNumber = models.IntegerField(primary_key=True) #start at 0, increment by one, use this to display message order instead of StartDate?
+    MessageNumber = models.AutoField(primary_key=True) #start at 0, increment by one, use this to display message order instead of StartDate?
     Text = models.CharField(max_length=300) #what should the message limit be?
     SenderUserId = models.ForeignKey(User, on_delete=models.CASCADE)
     
