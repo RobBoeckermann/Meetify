@@ -24,5 +24,11 @@ class MatchesSerializer(serializers.ModelSerializer):
 
 class MessagesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Liked_Songs
+        model = Messages
+        fields = '__all__'
+
+
+class LikedSongsSerializer(serializers.ModelSerializer):
+    class Meta:
+        moel = Liked_Songs
         fields = '__all__'
