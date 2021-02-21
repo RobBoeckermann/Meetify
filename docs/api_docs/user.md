@@ -1,9 +1,11 @@
 # User API
-## All endpoints are preceded by `{url}/user`
 
 ### Meetify user endpoints
 #### `POST user/signup`
 - Creates a new Meetify user
+- Status Codes:
+    - `200` - Successful signup
+    - `409` - Invalid signup: duplicate user
 - Sample `POST` body:  
 ```
 {  
@@ -19,6 +21,9 @@
 #### `POST user/login`
 - Logs user into Meetify
 - Establishes user session
+- Status Codes:
+    - `200` - Successful login
+    - `401` - Invalid login
 - Sample `POST` body:
 ```
 {
@@ -30,60 +35,44 @@
 #### `GET user/logout`
 - Logs user out of Meetify
 - Ends user session
+- Status Codes:
+    - `204` - Successful logout
 
 #### `user/{id}/profile`
 `GET`
 - Retrieves user profile data for the requested id
 - Does not require authentication
+- Status Codes:
+    - `200` - Successfully returned user
+    - `404` - Requested user not found
 
 `POST`
 - Updates user profile data for the requested id
 - Requires the requested user to be logged in
+ - Status Codes:
+    - `200` - Successfully updated user
+    - `401` - Requested user is not logged in
 - Sample `POST` body:
 ```
 {
     "ZipCode": 45219
 }
 ```
-
-#### `GET user/update-liked-songs`
-- Updates the Meetify Database with any changes to the current user's liked songs.
+*Use of any verbs other than GET or POST will result in* `405` - Invalid request method
 
 ### Spotify-related user endpoints
 #### `GET user/link-account`
 - Links Spotify account with Meetify user that is currently logged in
 - Redirects to `/callback`
+- Status Codes:
+    - `200` - Successfully linked Spotify account
 
 #### `GET user/refresh-token`
 - Refreshes the Spotify API token for the Meetify user that is currently logged in
+- Status Codes:
+    - `200` - Successfully refreshed Spotify access token
 
 #### `GET user/callback`
 - Redirect URI for Spotify authentication
 - **Do not call this endpoint directly; it is only used in the `/link-account` workflow**
-
-### Matching-related endpoints
-#### `GET intersection/liked-songs`
-- Returns json of the intersection of the current user's and the inputted user's liked songs playlists.
-- Sample `POST` body:
-```
-{
-    "target_user_id": 20
-}
-```
-- Sample response body:
-```
-{
-    "64rqvMhAPLLEag310IG3z9": {
-        "song": "Greek Tragedy - Oliver Nelson TikTok Remix",
-        "artist": "The Wombats / Oliver Nelson",
-        "album": "Greek Tragedy (Oliver Nelson TikTok Remix)",
-        "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b2737f07fa3b19d425f7a9735111"
-    },
-    "0zQvlYjV4SM6tvvnpV3OFg": {
-        "song": "Weaponry",
-        "artist": "Mike Posner / Jessie J",
-        "album": "Operation: Wake Up",
-        "albumArtUrl": "https://i.scdn.co/image/ab67616d0000b273f066c94496426b9fe804a679"
-    }
-}
-```
+- Status codes are not relevant on this endpoint because this is called from Spotify's authentication server
