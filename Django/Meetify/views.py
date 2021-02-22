@@ -134,10 +134,9 @@ def user_callback(request):
 def user_is_linked(request):
     if request.method == 'GET':
         user_info = User_Info.objects.get(pk=request.user.pk)
-        if user_info.SpotifyUserId:
-            return HttpResponse(True)
-    
-        return HttpResponse(False)
+        
+        is_linked = user_info.SpotifyUserId is not None
+        return JsonResponse({'IsLinked': is_linked})
 
     return HttpResponse(status=405, reason="Invalid request method")
 
