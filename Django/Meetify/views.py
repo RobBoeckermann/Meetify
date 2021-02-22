@@ -116,7 +116,7 @@ def user_profile(request, user_id):
 @csrf_exempt
 def user_callback(request):
     auth = spotipy.oauth2.SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'), client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'), redirect_uri="http://localhost:8000/user/callback")
-    token = auth.get_access_token(code=request.GET.get('code'))
+    token = auth.get_access_token(code=request.GET.get('code'), check_cache=False)
     user_info = User_Info.objects.get(pk=request.GET.get('state'))
 
     sp = spotipy.Spotify(token['access_token'])
