@@ -1,26 +1,26 @@
 import json
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 from ..models import Matches, Messages
 from ..serializers import MessagesSerializer
 
 
-def get_messages(request, user_id):
-    if user_id != request.user.pk:
-        return HttpResponse(status=401, reason="User must be logged in to view messages")
-        
-    messages = Messages.objects.filter(MatchId__in=(Matches.objects.filter(User1_id=user_id) | Matches.objects.filter(User2_id=user_id)))
+def get_messages(request):
+    messages = Messages.objects.filter(MatchId__in=(Matches.objects.filter(User1_id=request.user.pk) | Matches.objects.filter(User2_id=request.user.pk)))
     ser = MessagesSerializer(messages, many=True)
     return JsonResponse(ser.data, safe=False)
 
-def send_message(request, user_id):
-    if user_id != request.user.pk:
-        return HttpResponse(status=401, reason="User must be logged in to send messages")
-
+def send_message(request):
     body = json.loads(request.body)
-    match = (Matches.objects.filter(User1_id=user_id, User2_id=body['ToUserID'], META_EndDate__isnull=True) | 
-            Matches.objects.filter(User1_id=body['ToUserID'], User2_id=user_id, META_EndDate__isnull=True)).first()
+
+    user = User.objects.filter(pk=body['ToUserID'])
+    if not user:
+        return HttpResponse(status=404, reason="Target user not found")
+        
+    match = (Matches.objects.filter(User1_id=request.user.pk, User2_id=body['ToUserID'], META_EndDate__isnull=True) | 
+            Matches.objects.filter(User1_id=body['ToUserID'], User2_id=request.user.pk, META_EndDate__isnull=True)).first()
 
     if not match:
         return HttpResponse(status=403, reason="Users must be matched to send messages")

@@ -1,12 +1,10 @@
 # Chat API
 
-#### `chat/{user_id}/messages`
+#### `chat/messages`
 `GET`
-- Returns all messages sent to/from the requested user
-- Requires the requested user to be logged in
+- Returns all messages sent to/from the current user
 - Status Codes:
     - `200` - Successfully returned messages
-    - `401` - User must be logged in to view messages
 - Sample response body:
 ```
 [
@@ -30,13 +28,12 @@
 ```
 
 `POST`
-- Sends a message from user with id `user_id` (from URL) to user with id `ToUserID` (from request body)
-- Requires the sending user to be logged in
+- Sends a message from the current user to user with id `ToUserID` (from request body)
 - Users must be matched and both users must have accepted the match
 - Status Codes:
     - `200` - Successfully sent message
-    - `401` - User must be logged in to send messages
     - `403` - Users must be matched and both users must have accepted the match
+    - `404` - Target user not found
 - Sample request body:
 ```
 {

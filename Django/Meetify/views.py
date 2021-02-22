@@ -197,12 +197,12 @@ def matching_reject_match(request):
     matching.reject_match(request)
     return HttpResponse()
     
-def chat_messages(request, user_id):
+def chat_messages(request):
     if request.method == 'POST':
-        return chat.send_message(request, user_id)
+        return chat.send_message(request)
 
     if request.method == 'GET':
-        return chat.get_messages(request, user_id)
+        return chat.get_messages(request)
 
     return HttpResponse(status=405, reason="Invalid request method")
         

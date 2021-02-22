@@ -34,5 +34,5 @@ urlpatterns = [
     path('matching/accepted-matches', views.matching_accepted_matches),
 
     # CHAT
-    path('chat/<int:user_id>/messages', views.chat_messages)
+    path('chat/messages', views.chat_messages)
 ]
