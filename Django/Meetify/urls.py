@@ -19,6 +19,7 @@ urlpatterns = [
     path('user/refresh-token', views.user_refresh_token),
     path('user/<int:user_id>/profile', views.user_profile),
     path('user/callback', views.user_callback),
+    path('user/is-linked', views.user_is_linked),
     path('user/update-liked-songs', views.user_update_liked_songs),
     path('user/update-top-artists', views.user_update_user_top_artists),
     path('user/update-top-tracks', views.user_update_user_top_tracks),

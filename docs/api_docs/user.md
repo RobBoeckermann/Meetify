@@ -67,6 +67,17 @@
 - Status Codes:
     - `200` - Successfully linked Spotify account
 
+#### `GET user/is-linked`
+- Returns a boolean indicating whether the user is linked to a Spotify account
+- Status Codes:
+    - `200` - Successfully returned boolean
+- Sample response body:
+```
+{
+    "IsLinked": false
+}
+```
+
 #### `GET user/refresh-token`
 - Refreshes the Spotify API token for the Meetify user that is currently logged in
 - Status Codes:

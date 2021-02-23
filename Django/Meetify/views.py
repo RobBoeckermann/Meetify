@@ -116,7 +116,7 @@ def user_profile(request, user_id):
 @csrf_exempt
 def user_callback(request):
     auth = spotipy.oauth2.SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'), client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'), redirect_uri="http://localhost:8000/user/callback")
-    token = auth.get_access_token(code=request.GET.get('code'))
+    token = auth.get_access_token(code=request.GET.get('code'), check_cache=False)
     user_info = User_Info.objects.get(pk=request.GET.get('state'))
 
     sp = spotipy.Spotify(token['access_token'])
@@ -128,6 +128,17 @@ def user_callback(request):
 
     # TODO - Change this to whatever login confirmation page we actually want, and add to settings.py templates
     return render(request, 'Meetify/test.html')
+
+
+@csrf_exempt
+def user_is_linked(request):
+    if request.method == 'GET':
+        user_info = User_Info.objects.get(pk=request.user.pk)
+        
+        is_linked = user_info.SpotifyUserId is not None
+        return JsonResponse({'IsLinked': is_linked})
+
+    return HttpResponse(status=405, reason="Invalid request method")
 
 
 @csrf_exempt
