@@ -201,10 +201,10 @@ def update_user_matches(request):
             matched_user_ids.append(match.User1.User_id)
         else:
             matched_user_ids.append(match.User2.User_id)
-    all_users = User_Info.objects.all()
+    all_linked_users = User_Info.objects.filter(SpotifyUserId__isnull=False)
     unmatched_users = []
     matched_user_ids.append(user_id.User_id) #so that the current user is not matched with themselves.
-    for user in all_users:
+    for user in all_linked_users:
         if (user.User_id not in matched_user_ids):
             unmatched_users.append(user.User_id)
 
