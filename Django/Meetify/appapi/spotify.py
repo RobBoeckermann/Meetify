@@ -1,6 +1,8 @@
+import json
 import spotipy
 from django.http import JsonResponse
 
+from ..models import User_Info
 
 # takes a list of spotify SongUris and returns the song name, artist, album, and albumArtUrl
 def get_song_info(request, song_uris):
@@ -41,3 +43,12 @@ def get_song_info(request, song_uris):
             end = True
 
     return JsonResponse(song_dict, safe=False)
+
+def save_playlist(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    spotify_id = User_Info.objects.get(pk=request.user.pk).SpotifyUserId
+    body = json.loads(request.body)
+
+    playlist = sp.user_playlist_create(spotify_id, body['Name'], public=False)
+    sp.user_playlist_add_tracks(spotify_id, playlist['id'], body['Tracks'])
+    

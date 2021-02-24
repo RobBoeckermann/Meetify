@@ -36,5 +36,8 @@ urlpatterns = [
     path('matching/accepted-matches', views.matching_accepted_matches),
 
     # CHAT
-    path('chat/messages', views.chat_messages)
+    path('chat/messages', views.chat_messages),
+
+    
+    path('test/save-playlist', views.test_save_playlist)
 ]

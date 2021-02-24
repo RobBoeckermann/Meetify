@@ -233,3 +233,6 @@ def chat_messages(request):
 
     return HttpResponse(status=405, reason="Invalid request method")
         
+def test_save_playlist(request):
+    spotify.save_playlist(request)
+    return HttpResponse()
