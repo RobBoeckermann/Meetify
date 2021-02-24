@@ -165,6 +165,18 @@ def matching_intersect_users_liked_songs(request):
     intersection_json = spotify.get_song_info(request, song_uris)
     return intersection_json
 
+def matching_potential_matches(request):
+    if request.method == 'GET':
+        return matching.get_potential_matches(request)
+
+    return HttpResponse(status=405, reason="Invalid request method")
+
+def matching_accepted_matches(request):
+    if request.method == 'GET':
+        return matching.get_accepted_matches(request)
+
+    return HttpResponse(status=405, reason="Invalid request method")
+
 def user_update_matches(request):
     users.update_user_matches(request)
     return HttpResponse()
