@@ -39,58 +39,65 @@ from .serializers import *
 
 @csrf_exempt
 def user_signup(request):
-    body = json.loads(request.body)
+    if request.method == 'POST':
+        body = json.loads(request.body)
 
-    try:
-        user_info = users.signup(body)
-    except IntegrityError as e:
-        return HttpResponse(status=409, reason=e)
+        try:
+            user_info = users.signup(body)
+        except IntegrityError as e:
+            return HttpResponse(status=409, reason=e)
 
-    ser = UserInfoSerializer(user_info)
-    return JsonResponse(ser.data)
+        ser = UserInfoSerializer(user_info)
+        return JsonResponse(ser.data)
+    
+    return HttpResponse(status=405, reason="Invalid request method")
 
 
 @csrf_exempt
 def user_login(request):
-    body = json.loads(request.body)
-    user = authenticate(username=body['Username'], password=body['Password'])
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        user = authenticate(username=body['Username'], password=body['Password'])
 
-    if user:
-        if user is request.user:
-            return HttpResponse()
+        if user:
+            if user is request.user:
+                return HttpResponse()
 
-        login(request, user)
+            login(request, user)
 
-        if User_Info.objects.get(pk=user.pk).SpotifyAuthToken:
-            request.session['sp_token'] = users.refresh_token(User_Info.objects.get(pk=user.pk).SpotifyAuthToken)
+            if User_Info.objects.get(pk=user.pk).SpotifyAuthToken:
+                request.session['sp_token'] = users.refresh_token(User_Info.objects.get(pk=user.pk).SpotifyAuthToken)
 
-        ser = UserSerializer(user)
-        return JsonResponse(ser.data)
+            ser = UserSerializer(user)
+            return JsonResponse(ser.data)
 
-    return HttpResponse(status=401, reason="Invalid login")
+        return HttpResponse(status=401, reason="Invalid login")
 
+    return HttpResponse(status=405, reason="Invalid request method")
 
-@csrf_exempt
 def user_logout(request):
-    if request.user is None or not request.user.is_authenticated:
-        return HttpResponse(status=401, reason="Cannot logout: user not logged in")
-    logout(request)
-    return HttpResponse(status=204, reason="Successful logout")
+    if request.method == 'GET':
+        if request.user is None or not request.user.is_authenticated:
+            return HttpResponse(status=401, reason="Cannot logout: user not logged in")
+        logout(request)
+        return HttpResponse(status=204, reason="Successful logout")
 
+    return HttpResponse(status=405, reason="Invalid request method")
 
-@csrf_exempt
 def user_link_account(request):
-    url = users.link_account(request.user.pk)
-    return HttpResponse(url)
+    if request.method == 'GET':
+        url = users.link_account(request.user.pk)
+        return HttpResponse(url)
+
+    return HttpResponse(status=405, reason="Invalid request method")
     
-
-@csrf_exempt
 def user_refresh_token(request):
-    users.refresh_token(User_Info.objects.get(pk=request.user.pk).SpotifyAuthToken)
-    return HttpResponse()
+    if request.method == 'GET':
+        users.refresh_token(User_Info.objects.get(pk=request.user.pk).SpotifyAuthToken)
+        return HttpResponse()
 
+    return HttpResponse(status=405, reason="Invalid request method")
 
-@csrf_exempt
 def user_profile(request, user_id):
     if request.method == 'POST':
         if user_id is not request.user.pk:
@@ -112,7 +119,6 @@ def user_profile(request, user_id):
 
     return HttpResponse(status=405, reason="Invalid request method")
 
-
 @csrf_exempt
 def user_callback(request):
     auth = spotipy.oauth2.SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'), client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'), redirect_uri="http://localhost:8000/user/callback")
@@ -129,8 +135,6 @@ def user_callback(request):
     # TODO - Change this to whatever login confirmation page we actually want, and add to settings.py templates
     return render(request, 'Meetify/test.html')
 
-
-@csrf_exempt
 def user_is_linked(request):
     if request.method == 'GET':
         user_info = User_Info.objects.get(pk=request.user.pk)
@@ -140,34 +144,27 @@ def user_is_linked(request):
 
     return HttpResponse(status=405, reason="Invalid request method")
 
-
-@csrf_exempt
 def user_update_liked_songs(request):
     users.update_liked_songs(request)
     return HttpResponse()
 
-@csrf_exempt
 def user_update_user_top_artists(request):
     users.update_user_top_artists(request)
     return HttpResponse()
 
-@csrf_exempt
 def user_update_user_top_tracks(request):
     users.update_user_top_tracks(request)
     return HttpResponse()
     
-@csrf_exempt
 def user_update_user_audio_features_scores(request):
     users.update_user_audio_features_scores(request)
     return HttpResponse()
 
-@csrf_exempt
 def matching_intersect_users_liked_songs(request):
     song_uris = matching.get_liked_songs_intersection(request)
     intersection_json = spotify.get_song_info(request, song_uris)
     return intersection_json
 
-@csrf_exempt
 def user_update_matches(request):
     users.update_user_matches(request)
     return HttpResponse()
