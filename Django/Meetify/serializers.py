@@ -23,13 +23,17 @@ class MatchesSerializer(serializers.ModelSerializer):
 
 
 class MatchesSerializerMatchedWith(serializers.ModelSerializer):
+    match_id = serializers.SerializerMethodField()
     matched_with = serializers.SerializerMethodField()
     self_accepted = serializers.SerializerMethodField()
     other_accepted = serializers.SerializerMethodField()
 
     class Meta:
         model = Matches
-        fields = ['id', 'matched_with', 'self_accepted', 'other_accepted', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'loudness', 'speechiness', 'tempo', 'valence']
+        fields = ['match_id', 'matched_with', 'self_accepted', 'other_accepted']
+
+    def get_match_id(self, obj):
+        return obj.pk
 
     def get_matched_with(self, obj):
         if self.context.get("user_id") == obj.User1_id:
