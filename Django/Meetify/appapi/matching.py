@@ -4,7 +4,7 @@ from django.http import JsonResponse
 import spotipy
 
 from ..models import User_Info, Liked_Songs, Matches
-from ..serializers import MatchesSerializer
+from ..serializers import MatchesSerializerMatchedWith
 
 
 # returns a list of songsUris found on both the current user's liked songs AND the target user's liked songs.
@@ -47,12 +47,12 @@ def get_potential_matches(request):
     matches = (Matches.objects.filter(User1_id=request.user.pk, AcceptedByUser1=False, META_EndDate=None) | 
                 Matches.objects.filter(User2_id=request.user.pk, AcceptedByUser2=False, META_EndDate=None))
     
-    ser = MatchesSerializer(matches, many=True)
+    ser = MatchesSerializerMatchedWith(matches, many=True, context={"user_id": request.user.pk})
     return JsonResponse(ser.data, safe=False)
 
 def get_accepted_matches(request):
     matches = (Matches.objects.filter(User1_id=request.user.pk, AcceptedByUser1=True, AcceptedByUser2=True, META_EndDate=None) | 
                 Matches.objects.filter(User2_id=request.user.pk, AcceptedByUser1=True, AcceptedByUser2=True, META_EndDate=None))
 
-    ser = MatchesSerializer(matches, many=True)
+    ser = MatchesSerializerMatchedWith(matches, many=True, context={"user_id": request.user.pk})
     return JsonResponse(ser.data, safe=False)
