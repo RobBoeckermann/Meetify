@@ -22,6 +22,35 @@ class MatchesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MatchesSerializerMatchedWith(serializers.ModelSerializer):
+    match_id = serializers.SerializerMethodField()
+    matched_with = serializers.SerializerMethodField()
+    self_accepted = serializers.SerializerMethodField()
+    other_accepted = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Matches
+        fields = ['match_id', 'matched_with', 'self_accepted', 'other_accepted']
+
+    def get_match_id(self, obj):
+        return obj.pk
+
+    def get_matched_with(self, obj):
+        if self.context.get("user_id") == obj.User1_id:
+            return obj.User2_id
+        return obj.User1_id
+
+    def get_self_accepted(self, obj):
+        if self.context.get("user_id") == obj.User1_id:
+            return obj.AcceptedByUser1
+        return obj.AcceptedByUser2
+
+    def get_other_accepted(self, obj):
+        if self.context.get("user_id") == obj.User1_id:
+            return obj.AcceptedByUser2
+        return obj.AcceptedByUser1
+
+
 class MessagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Liked_Songs

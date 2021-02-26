@@ -82,3 +82,41 @@
     "match_id": 7
 }
 ```
+
+#### `GET matching/potential-matches`
+- Retrieves matches from the database that have not been accepted/declined by the current user
+- Status Codes:
+    - `200` - Successfully returned matches
+- Sample response body:
+```
+[
+    {
+        "match_id": 7,
+        "matched_with": 2,
+        "self_accepted": false,
+        "other_accepted": true
+    },
+    {
+        "match_id": 9,
+        "matched_with": 1,
+        "self_accepted": false,
+        "other_accepted": false
+    }
+]
+```
+
+#### `GET matching/accepted-matches`
+- Retrieves matches from the database that have been accepted by both the current user and the other user
+- Status Codes:
+    - `200` - Successfully returned matches
+- Sample response body:
+```
+[
+    {
+        "match_id": 7,
+        "matched_with": 2,
+        "self_accepted": true,
+        "other_accepted": true
+    }
+]
+```
