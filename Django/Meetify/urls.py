@@ -25,5 +25,9 @@ urlpatterns = [
     path('user/update-top-tracks', views.user_update_user_top_tracks),
     path('user/update-audio-features-scores', views.user_update_user_audio_features_scores),
     path('user/update-matches', views.user_update_matches),
-    path('user/update-all', views.user_update_all)
+    path('user/update-all', views.user_update_all),
+
+    # MATCHING
+    path('matching/accept-match', views.matching_accept_match),
+    path('matching/reject-match', views.matching_reject_match)
 ]

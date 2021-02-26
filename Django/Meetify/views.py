@@ -174,3 +174,13 @@ def user_update_all(request):
     users.update_liked_songs(request)
     users.update_user_audio_features_scores(request)
     return HttpResponse()
+
+@csrf_exempt
+def matching_accept_match(request):
+    result=matching.accept_match(request)
+    return HttpResponse(result)
+
+@csrf_exempt
+def matching_reject_match(request):
+    matching.reject_match(request)
+    return HttpResponse()

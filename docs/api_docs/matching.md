@@ -53,3 +53,32 @@
 - Updates the Meetify Database with new matches for the current user.
 - Status Codes:
     - `200` - Successfully updated matches
+    
+#### `GET user/update-all`
+- Calls all update methods that need to remain up-to-date for a user.
+- Status Codes:
+    - `200` - Successfully updated matches
+
+#### `GET matching/accept-match`
+- Sets the current user's "AcceptedBy" column to true on the match record passed to the call.
+- Status Codes:
+    - `200` - Successfully accepted the match for the current user.
+        - Response "True" = Success.
+        - Response "False" = Failed to find current user in provided match record.
+- Sample `POST` body:
+```
+{
+    "match_id": 7
+}
+```
+
+#### `GET matching/reject-match`
+- End-dates the match record passed to the call so that it will no loger be visible on the Meet or Match pages for either user. TODO: verify that this removes ability to chat as well once implemented.
+- Status Codes:
+    - `200` - Successfully end-dated the match.
+- Sample `POST` body:
+```
+{
+    "match_id": 7
+}
+```
