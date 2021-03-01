@@ -202,7 +202,7 @@ def chat_messages(request):
         return chat.send_message(request)
 
     if request.method == 'GET':
-        return chat.get_messages(request)
+        return chat.get_messages(request, request.GET.get('match'))
 
     return HttpResponse(status=405, reason="Invalid request method")
         

@@ -1,8 +1,9 @@
 # Chat API
 
-#### `chat/messages`
+#### `chat/messages?match={match_id}`
 `GET`
 - Returns all messages sent to/from the current user
+- Including the optional `match` filter in URL will only return messages associated with that match (provided that the user is part of the match)
 - Status Codes:
     - `200` - Successfully returned messages
 - Sample response body:
@@ -30,6 +31,7 @@
 `POST`
 - Sends a message from the current user to user with id `ToUserID` (from request body)
 - Users must be matched and both users must have accepted the match
+- Response contains all messages associated with the current match
 - Status Codes:
     - `200` - Successfully sent message
     - `403` - Users must be matched and both users must have accepted the match

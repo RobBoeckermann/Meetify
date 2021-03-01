@@ -7,8 +7,14 @@ from ..models import Matches, Messages
 from ..serializers import MessagesSerializer
 
 
-def get_messages(request):
-    messages = Messages.objects.filter(MatchId__in=(Matches.objects.filter(User1_id=request.user.pk) | Matches.objects.filter(User2_id=request.user.pk)))
+def get_messages(request, match):
+    messages = []
+    if match:
+        if Matches.objects.get(pk=match).User1_id == request.user.pk or Matches.objects.get(pk=match).User2_id == request.user.pk:
+            messages = Messages.objects.filter(MatchId=match)
+    else:
+        messages = Messages.objects.filter(MatchId__in=(Matches.objects.filter(User1_id=request.user.pk) | Matches.objects.filter(User2_id=request.user.pk)), META_EndDate=None)
+
     ser = MessagesSerializer(messages, many=True)
     return JsonResponse(ser.data, safe=False)
 
@@ -31,8 +37,7 @@ def send_message(request):
     message = Messages(Text=body['Text'], MatchId=match, SenderUserId=request.user)
     message.save()
 
-    ser = MessagesSerializer(message)
-    return JsonResponse(ser.data)
+    return get_messages(request, match.pk)
 
     
 
