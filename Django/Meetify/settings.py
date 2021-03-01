@@ -40,6 +40,7 @@ CORS_ORIGIN_WHITELIST = (
 # Disable HTTP-only to ensure cookies are retrievable by JavaScript on front-end
 SESSION_COOKIE_HTTPONLY = False
 CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_NAME = 'XSRF-TOKEN'
 
 
 # Application definition
