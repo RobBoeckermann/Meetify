@@ -12,7 +12,7 @@ from django.db.utils import IntegrityError
 import spotipy
 
 from .models import *
-from .appapi import users, matching, spotify
+from .appapi import users, matching, spotify, chat
 from .serializers import *
 # from .appapi import intersect_songs
 
@@ -196,3 +196,13 @@ def matching_accept_match(request):
 def matching_reject_match(request):
     matching.reject_match(request)
     return HttpResponse()
+    
+def chat_messages(request):
+    if request.method == 'POST':
+        return chat.send_message(request)
+
+    if request.method == 'GET':
+        return chat.get_messages(request, request.GET.get('match'))
+
+    return HttpResponse(status=405, reason="Invalid request method")
+        
