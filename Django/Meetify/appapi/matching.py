@@ -2,16 +2,31 @@ import json
 from django.utils import timezone
 from django.http import JsonResponse
 import spotipy
+from django.contrib.auth.models import User
 
 from ..models import User_Info, Liked_Songs, Matches
 from ..serializers import MatchesSerializerMatchedWith
 
 
-# returns a list of songsUris found on both the current user's liked songs AND the target user's liked songs.
+# returns a list of songsUris found on both the current user's liked songs AND the target user's liked songs when provided with the target user's User_id.
 def get_liked_songs_intersection(request):
     user_id = User_Info.objects.get(pk=request.user.pk)
     body = json.loads(request.body)
     target_user_id = body['target_user_id']
+
+    user1_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=user_id)])
+    user2_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=target_user_id)])
+    intersection = list(set(user1_songs) & set(user2_songs))
+
+    return intersection
+
+# returns a list of songsUris found on both the current user's liked songs AND the target user's liked songs when provided with the target user's username. (TODO: not DRY, but I was in a rush and it works fine for a MVP)
+def get_liked_songs_intersection_by_username(request):
+    user_id = User_Info.objects.get(pk=request.user.pk)
+    body = json.loads(request.body)
+    target_username = body['target_username']
+    target_user = User.objects.get(username=target_username)
+    target_user_id = target_user.id
 
     user1_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=user_id)])
     user2_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=target_user_id)])

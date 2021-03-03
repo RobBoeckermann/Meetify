@@ -160,8 +160,14 @@ def user_update_user_audio_features_scores(request):
     users.update_user_audio_features_scores(request)
     return HttpResponse()
 
-def matching_intersect_users_liked_songs(request):
+def matching_intersect_userid_liked_songs(request):
     song_uris = matching.get_liked_songs_intersection(request)
+    intersection_json = spotify.get_song_info(request, song_uris)
+    return intersection_json
+
+def matching_intersect_username_liked_songs(request):
+
+    song_uris = matching.get_liked_songs_intersection_by_username(request)
     intersection_json = spotify.get_song_info(request, song_uris)
     return intersection_json
 

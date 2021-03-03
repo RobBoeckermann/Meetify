@@ -29,6 +29,17 @@
 }
 ```
 
+#### `GET intersection/liked-songs-by-username`
+- Returns json of the intersection of the current user's and the inputted user's liked songs playlists.
+- Status Codes:
+    - `200` - Successfully returned liked songs intersection
+- Sample `POST` body:
+```
+{
+    "target_username": "robert"
+}
+```
+
 #### `GET user/update-liked-songs`
 - Updates the Meetify Database with any changes to the current user's liked songs.
 - Status Codes:
