@@ -166,8 +166,12 @@ def matching_intersect_userid_liked_songs(request):
     return intersection_json
 
 def matching_intersect_username_liked_songs(request):
-
     song_uris = matching.get_liked_songs_intersection_by_username(request)
+    intersection_json = spotify.get_song_info(request, song_uris)
+    return intersection_json
+
+def matching_intersect_playlists(request):
+    song_uris = matching.get_song_intersection_by_playlist_ids(request)
     intersection_json = spotify.get_song_info(request, song_uris)
     return intersection_json
 

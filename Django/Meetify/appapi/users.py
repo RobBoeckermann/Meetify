@@ -62,8 +62,7 @@ def update_liked_songs(request):
     user_liked_songs = []
     end = False
     while (end == False):
-        user_saved_tracks = sp.current_user_saved_tracks(
-            limit=50, offset=offset)
+        user_saved_tracks = sp.current_user_saved_tracks(limit=50, offset=offset)
         if (len(user_saved_tracks['items']) == 0):
             end = True
         else:

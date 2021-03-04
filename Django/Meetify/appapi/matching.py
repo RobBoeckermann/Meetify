@@ -34,6 +34,56 @@ def get_liked_songs_intersection_by_username(request):
 
     return intersection
 
+# returns a list of songsUris found on both of the public playlists whose playlist IDs were passed in the request. TODO: limit "fields" playlist_tracks parameter to return only songs ids? TODO: make song1 and song2 loops DRY. 
+def get_song_intersection_by_playlist_ids(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    body = json.loads(request.body)
+    playlist_id_1 = body['playlist_id_1']
+    playlist_id_2 = body['playlist_id_2']
+
+    offset = 0
+    songs1 = []
+    end = False
+    while (end == False):
+        playlist_tracks = sp.playlist_tracks(playlist_id_1, limit=100, offset=offset)
+        if (len(playlist_tracks['items']) == 0):
+            end = True
+        else:
+            for item in playlist_tracks['items']:
+                songs1.append(item["track"]["id"])
+            offset = offset + 100
+
+    offset = 0
+    songs2 = []
+    end = False
+    while (end == False):
+        playlist_tracks = sp.playlist_tracks(playlist_id_2, limit=100, offset=offset)
+        if (len(playlist_tracks['items']) == 0):
+            end = True
+        else:
+            for item in playlist_tracks['items']:
+                songs2.append(item["track"]["id"])
+            offset = offset + 100
+
+    intersection = list(set(songs1) & set(songs2))
+    return intersection
+
+    """ playlist_tracks(playlist_id, fields=None, limit=100, offset=0, market=None, additional_types=('track', ))
+
+    Get full details of the tracks of a playlist.
+
+    Parameters:
+
+            playlist_id - the id of the playlist
+            fields - which fields to return
+            limit - the maximum number of tracks to return
+            offset - the index of the first track to return
+            market - an ISO 3166-1 alpha-2 country code.
+
+            additional_types - list of item types to return.
+                valid types are: track and episode """
+
+
 def accept_match(request):
     user = User_Info.objects.get(pk=request.user.pk)
     body = json.loads(request.body)
