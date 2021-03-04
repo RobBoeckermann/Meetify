@@ -52,9 +52,14 @@ class MatchesSerializerMatchedWith(serializers.ModelSerializer):
 
 
 class MessagesSerializer(serializers.ModelSerializer):
+    Text = serializers.SerializerMethodField()
+
     class Meta:
         model = Messages
         fields = '__all__'
+
+    def get_Text(self, obj):
+        return obj.Text.encode('unicode_escape').decode('utf-8')
 
 
 class LikedSongsSerializer(serializers.ModelSerializer):
