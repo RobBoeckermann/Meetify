@@ -12,7 +12,7 @@ class User_Info(models.Model):
     SpotifyUserId = models.CharField(max_length=150, unique=True, null=True)
     SpotifyAuthToken = models.CharField(max_length=200, null=True)
     ZipCode = models.CharField(max_length=10, null=True)
-    ProfilePic = models.ImageField(null=True)
+    ProfilePicURL = models.URLField(null=True)
 
     META_StartDate = models.DateTimeField(default=timezone.now, blank=True)
     META_EndDate = models.DateTimeField(null=True)
