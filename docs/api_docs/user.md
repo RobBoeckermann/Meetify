@@ -14,7 +14,7 @@
     "Password": "mypassword",
     "DisplayName": "jsteuver",
     "ZipCode": null,
-    "ProfilePic": null
+    "ProfilePicURL": null
 }
 ```
 

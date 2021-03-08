@@ -13,7 +13,7 @@ from ..models import Audio_Features, User_Info, Liked_Songs, Matches
 def signup(data):
     user = User.objects.create_user(username=data['Username'], email=data['Email'], password=data['Password'])
 
-    user_info = User_Info(User=user, DisplayName=data['DisplayName'], ZipCode=data['ZipCode'], ProfilePic=data['ProfilePic'])
+    user_info = User_Info(User=user, DisplayName=data['DisplayName'], ZipCode=data['ZipCode'], ProfilePicURL=data['ProfilePicURL'])
     user_info.save()
 
     return user_info
