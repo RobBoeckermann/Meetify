@@ -192,8 +192,14 @@ def user_update_matches(request):
     return HttpResponse()
 
 def user_update_profile_pic(request):
-    users.update_profile_pic(request)
-    return HttpResponse()
+    if request.method == 'GET':
+        if User_Info.objects.get(request.user.pk).SpotifyUserId:
+            users.update_profile_pic(request)
+            return HttpResponse()
+        else:
+            return HttpResponse(status=401, reason="User has no linked Spotify account")
+
+    return HttpResponse(status=405, reason="Invalid request method")
 
 @csrf_exempt
 def user_update_all(request):
