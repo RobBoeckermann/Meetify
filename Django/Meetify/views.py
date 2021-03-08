@@ -193,7 +193,7 @@ def user_update_matches(request):
 
 def user_update_profile_pic(request):
     if request.method == 'GET':
-        if User_Info.objects.get(request.user.pk).SpotifyUserId:
+        if User_Info.objects.get(pk=request.user.pk).SpotifyUserId:
             users.update_profile_pic(request)
             return HttpResponse()
         else:
@@ -204,7 +204,7 @@ def user_update_profile_pic(request):
 @csrf_exempt
 def user_update_all(request):
     if request.method == 'GET':
-        if User_Info.objects.get(request.user.pk).SpotifyUserId:
+        if User_Info.objects.get(pk=request.user.pk).SpotifyUserId:
             users.update_liked_songs(request)
             users.update_user_audio_features_scores(request)
             users.update_profile_pic(request)
