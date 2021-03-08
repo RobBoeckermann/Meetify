@@ -191,10 +191,15 @@ def user_update_matches(request):
     users.update_user_matches(request)
     return HttpResponse()
 
+def user_update_profile_pic(request):
+    users.update_profile_pic(request)
+    return HttpResponse()
+
 @csrf_exempt
 def user_update_all(request):
     users.update_liked_songs(request)
     users.update_user_audio_features_scores(request)
+    users.update_profile_pic(request)
     return HttpResponse()
 
 @csrf_exempt
