@@ -78,6 +78,18 @@
 }
 ```
 
+#### `GET` user/update-profile-pic
+- Syncs the profile pic of the current user with their Spotify profile pic
+- Status Codes:
+    - `200` - Successfully updated profile pic
+    - `401` - User has no linked Spotify account
+
+#### `GET` user/update-all
+- Pulls Spotify data to update database with current data
+- Status Codes:
+    - `200` - Successfully updated Spotify data
+    - `401` - User has no linked Spotify account
+
 #### `GET user/refresh-token`
 - Refreshes the Spotify API token for the Meetify user that is currently logged in
 - Status Codes:

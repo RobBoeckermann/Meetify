@@ -238,3 +238,9 @@ def get_feature_differences(user1, user2):
             "valence": abs(user1_scores.valence - user2_scores.valence)
         }
     return dict
+
+def update_profile_pic(request):
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    user = User_Info.objects.get(pk=request.user.pk)
+    user.ProfilePicURL = sp.user(user.SpotifyUserId)['images'][0]['url']
+    user.save(update_fields=['ProfilePicURL'])
