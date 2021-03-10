@@ -53,10 +53,15 @@ def get_profile(user_id):
         return None
 
 
+def update_liked_songs_request(request):
+    token = request.session['sp_token']
+    user_id = request.user.pk
+    update_liked_songs(user_id, token)
+
 #updates the db with any new liked songs from the current user. Not utilizing end dates
-def update_liked_songs(request):
-    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
-    user = User_Info.objects.get(pk=request.user.pk)
+def update_liked_songs(user_id, token):
+    sp = spotipy.Spotify(token['access_token'])
+    user = User_Info.objects.get(pk=user_id)
 
     offset = 0
     user_liked_songs = []
@@ -73,7 +78,7 @@ def update_liked_songs(request):
     # for test in user_liked_songs:
     #     print("liked songs " + test)
 
-    db_liked_songs = list(Liked_Songs.objects.filter(userId=user))
+    db_liked_songs = Liked_Songs.objects.filter(userId=user).values_list('songUri', flat=True)
 
     # for test in db_liked_songs:
     #     print("db songs " + test.songUri)
@@ -87,11 +92,14 @@ def update_liked_songs(request):
     #     print("to_be_added_to_db " + test)
 
     for song in to_be_removed_from_db:
-        Liked_Songs.objects.filter(Q(userId=user), Q(songUri=song.songUri)).delete()
+        Liked_Songs.objects.filter(Q(userId=user), Q(songUri=song)).delete()
 
+    inserts = []
     for song in to_be_added_to_db:
         new_record = Liked_Songs(userId=user, songUri=song)
-        new_record.save()
+        inserts.append(new_record)
+
+    Liked_Songs.objects.bulk_create(inserts)
 
 #updates the db with the user's top artists in the short, medium, and long term
 def update_user_top_artists(request):
@@ -124,13 +132,17 @@ def update_user_top_tracks(request):
             offset - the index of the first entity to return
             time_range - Over what time frame are the affinities computed Valid-values: short_term, medium_term, long_term """
 
+def update_user_audio_features_scores_request(request):
+    token = request.session['sp_token']
+    user_id = request.user.pk
+    update_user_audio_features_scores(user_id, token)
 
 #updates the user's audio features scores based on the audio features of their liked songs.
-def update_user_audio_features_scores(request):
-    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
-    user_id = User_Info.objects.get(pk=request.user.pk)
+def update_user_audio_features_scores(user_id, token):
+    sp = spotipy.Spotify(token['access_token'])
+    user = User_Info.objects.get(pk=user_id)
 
-    liked_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=user_id)])
+    liked_songs = list([s.songUri for s in Liked_Songs.objects.filter(userId=user)])
 
     temp_acousticness, temp_danceability, temp_energy, temp_instrumentalness,temp_loudness, temp_speechiness, temp_tempo, temp_valence, temp_number_of_liked_songs = 0, 0, 0, 0, 0, 0, 0, 0, 0
 
@@ -188,28 +200,33 @@ def update_user_audio_features_scores(request):
             tracks - a list of track URIs, URLs or IDs, maximum: 100 ids """
 
 
-#compares current user to all meetify users they have not been compared to yet. Creates new Match records for these pairings.
-def update_user_matches(request):
-    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
-    user_id = User_Info.objects.get(pk=request.user.pk)
+def update_user_matches_request(request):
+    token = request.session['sp_token']
+    user_id = request.user.pk
+    update_liked_songs(user_id, token)
 
-    existing_matches = Matches.objects.filter(Q(User1=user_id) | Q(User2=user_id))
+#compares current user to all meetify users they have not been compared to yet. Creates new Match records for these pairings.
+def update_user_matches(user_id, token):
+    sp = spotipy.Spotify(token['access_token'])
+    current_user = User_Info.objects.get(pk=user_id)
+
+    existing_matches = Matches.objects.filter(Q(User1=current_user) | Q(User2=current_user))
     matched_user_ids = []
     for match in existing_matches:
-        if (match.User1!=user_id):
+        if (match.User1 != current_user):
             matched_user_ids.append(match.User1.User_id)
         else:
             matched_user_ids.append(match.User2.User_id)
     all_linked_users = User_Info.objects.filter(SpotifyUserId__isnull=False)
     unmatched_users = []
-    matched_user_ids.append(user_id.User_id) #so that the current user is not matched with themselves.
+    matched_user_ids.append(user_id) #so that the current user is not matched with themselves.
     for user in all_linked_users:
         if (user.User_id not in matched_user_ids):
             unmatched_users.append(user.User_id)
 
     for user in unmatched_users:
-        feature_differences = get_feature_differences(user_id, user)
-        features = Matches(User1=user_id, User2=User_Info.objects.get(pk=user), 
+        feature_differences = get_feature_differences(current_user, user)
+        features = Matches(User1=current_user, User2=User_Info.objects.get(pk=user), 
             acousticness=feature_differences['acousticness'],
             danceability=feature_differences['danceability'],
             energy=feature_differences['energy'],

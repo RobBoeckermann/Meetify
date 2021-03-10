@@ -78,4 +78,4 @@ To accomplish these goals, **Meetify** utilizes the following technologies:
 
 ## Dependencies
 
-- `pip install mysql mysql-connector spotipy pillow django-extensions djangorestframework django-cors-headers pymysql`
+- `pip install mysql mysql-connector spotipy pillow django-extensions djangorestframework django-cors-headers pymysql celery django_celery_beat`

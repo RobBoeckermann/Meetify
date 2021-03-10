@@ -145,7 +145,7 @@ def user_is_linked(request):
     return HttpResponse(status=405, reason="Invalid request method")
 
 def user_update_liked_songs(request):
-    users.update_liked_songs(request)
+    users.update_liked_songs_request(request)
     return HttpResponse()
 
 def user_update_user_top_artists(request):
@@ -157,7 +157,7 @@ def user_update_user_top_tracks(request):
     return HttpResponse()
     
 def user_update_user_audio_features_scores(request):
-    users.update_user_audio_features_scores(request)
+    users.update_user_audio_features_scores_request(request)
     return HttpResponse()
 
 def matching_intersect_userid_liked_songs(request):
@@ -188,7 +188,7 @@ def matching_accepted_matches(request):
     return HttpResponse(status=405, reason="Invalid request method")
 
 def user_update_matches(request):
-    users.update_user_matches(request)
+    users.update_user_matches_request(request)
     return HttpResponse()
 
 def user_update_profile_pic(request):
@@ -205,8 +205,9 @@ def user_update_profile_pic(request):
 def user_update_all(request):
     if request.method == 'GET':
         if User_Info.objects.get(pk=request.user.pk).SpotifyUserId:
-            users.update_liked_songs(request)
-            users.update_user_audio_features_scores(request)
+            users.update_liked_songs_request(request)
+            users.update_user_audio_features_scores_request(request)
+            users.update_user_matches_request(request)
             users.update_profile_pic(request)
             return HttpResponse()
         else:
