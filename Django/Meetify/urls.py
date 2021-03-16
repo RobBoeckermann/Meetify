@@ -11,6 +11,8 @@ urlpatterns = [
     path('intersection/liked-songs', views.matching_intersect_userid_liked_songs),
     path('intersection/liked-songs-by-username', views.matching_intersect_username_liked_songs),
     path('intersection/playlists', views.matching_intersect_playlists), 
+    path('intersection/save-playlist', views.matching_save_playlist),
+    #path('intersection/playlists', views.), #will be used to intersect two normal playlist ids instead of two liked song playlists
 
     # USERS
     path('user/signup', views.user_signup),

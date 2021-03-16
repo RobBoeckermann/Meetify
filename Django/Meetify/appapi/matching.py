@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 from ..models import User_Info, Liked_Songs, Matches
 from ..serializers import MatchesSerializerMatchedWith
+from ..appapi import users
 
 
 # returns a list of songsUris found on both the current user's liked songs AND the target user's liked songs when provided with the target user's User_id.
@@ -121,3 +122,19 @@ def get_accepted_matches(request):
 
     ser = MatchesSerializerMatchedWith(matches, many=True, context={"user_id": request.user.pk})
     return JsonResponse(ser.data, safe=False)
+    
+def save_playlist(request):
+    request.session['sp_token'] = users.refresh_token(User_Info.objects.get(pk=request.user.pk).SpotifyAuthToken)
+    sp = spotipy.Spotify(request.session['sp_token']['access_token'])
+    
+    spotify_id = User_Info.objects.get(pk=request.user.pk).SpotifyUserId
+    body = json.loads(request.body)
+
+    playlist = sp.user_playlist_create(spotify_id, body['name'], public=False)
+    sp.user_playlist_add_tracks(spotify_id, playlist['id'], body['tracks'])
+    print(playlist)
+    return JsonResponse(
+        {
+            'playlist_id': playlist['id'],
+            'url': playlist['external_urls']['spotify']
+        })

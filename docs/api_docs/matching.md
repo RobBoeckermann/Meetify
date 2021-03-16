@@ -76,6 +76,27 @@
 }
 ```
 
+#### `POST intersection/save-playlist`
+- Saves a playlist to the user's Spotify account
+- Requires a playlist name (`name`) and list of track IDs (`tracks`) in the request body
+- Returns URL and ID of created playlist
+- Status Codes:
+    - `200` - Successfully saved playlist
+- Sample `POST` body:
+```
+{
+    "name": "Example Playlist",
+    "tracks": ["1yGRwbdxFSqTtgCPtRhS8y", "7wGX84uAE6HuELjsejxk6d"]
+}
+```
+- Sample response body:
+```
+{
+    "playlist_id": "4v1AA9wzbfxQkyMGpsj4uw",
+    "url": "https://open.spotify.com/playlist/4v1AA9wzbfxQkyMGpsj4uw"
+}
+```
+
 #### `GET user/update-liked-songs`
 - Updates the Meetify Database with any changes to the current user's liked songs.
 - Status Codes:

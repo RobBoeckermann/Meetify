@@ -187,6 +187,12 @@ def matching_accepted_matches(request):
 
     return HttpResponse(status=405, reason="Invalid request method")
 
+def matching_save_playlist(request):
+    if request.method == 'POST':
+        return matching.save_playlist(request)
+
+    return HttpResponse(status=405, reason="Invalid request method")
+
 def user_update_matches(request):
     users.update_user_matches(request)
     return HttpResponse()
@@ -232,4 +238,3 @@ def chat_messages(request):
         return chat.get_messages(request, request.GET.get('match'))
 
     return HttpResponse(status=405, reason="Invalid request method")
-        
