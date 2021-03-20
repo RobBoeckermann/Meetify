@@ -33,8 +33,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # https://gist.github.com/mk123/4e7709a4a720a458b4551b15c1077ccf
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
-    '54.205.243.181', # Front-end server
-    '50.19.8.68', # Django server
+    'http://54.205.243.181', # Front-end server
+    'http://50.19.8.68', # Django server
 )
 
 # Disable HTTP-only to ensure cookies are retrievable by JavaScript on front-end
