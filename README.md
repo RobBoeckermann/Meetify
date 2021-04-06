@@ -22,10 +22,14 @@
 - Midterm Presentation
     - [Video Presentation](https://youtu.be/nDZ-knLTBqw)
     - [Slides](docs/midterm_presentation/midterm_presentation.pdf)
-- Self-Assessment Essays From...
-    - [Rob Boeckermann](docs/assessments/Rob-Boeckermann-Assessment.md)
-    - [Dustin Seger](docs/assessments/Dustin-Seger-Assessment.md)
-    - [Jake Steuver](docs/assessments/Jake-Steuver-Assessment.md)
+- Initial Self-Assessment Essays From...
+    - [Rob Boeckermann](docs/assessments/fall2020/Rob-Boeckermann-Assessment.md)
+    - [Dustin Seger](docs/assessments/fall2020/Dustin-Seger-Assessment.md)
+    - [Jake Steuver](docs/assessments/fall2020/Jake-Steuver-Assessment.md)
+- Final Self-Assessment Essays From...
+    - [Rob Boeckermann](docs/assessments/spring2021/Rob-Boeckermann-Assessment.md)
+    - [Dustin Seger](docs/assessments/spring2021/Dustin-Seger-Assessment.md)
+    - [Jake Steuver](docs/assessments/spring2021/Jake-Steuver-Assessment.md)
 - Professional Biographies From...
     - [Rob Boeckermann](docs/bios/rob-boeckermann-bio.pdf)
     - [Dustin Seger](docs/bios/dustin-seger-bio.md)
