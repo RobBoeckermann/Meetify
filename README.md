@@ -11,17 +11,27 @@
 
 <details><summary><strong>Table of Contents - Extended Universe</strong></summary>
 
-- [User Documents](docs/user_docs/user_docs.md)
+- [User Manual](docs/user_docs/user_docs.md)
 - [User Stories](docs/user_stories.md)
 - [Design Diagrams](docs/design_diagrams.pdf)
+- [User Interface Specification](docs/ui_spec/UserInterfaceSpec.md)
+- Tests
+    - [Test Cases](docs/test_cases/TestCases.pdf)
+    - [Test Plan](docs/test_cases/TestPlan.pdf)
+    - [Test Results](docs/test_cases/TestResults.md)
 - Project Progress
     - [Tasks](docs/tasks.md)
     - [Milestones](docs/milestones/milestones.md)
     - [Timeline](docs/milestones/timeline.png)
     - [Effort Matrix](docs/milestones/effort_matrix.png)
-- Midterm Presentation
-    - [Video Presentation](https://youtu.be/nDZ-knLTBqw)
-    - [Slides](docs/midterm_presentation/midterm_presentation.pdf)
+- Presentations
+    - Midterm
+        - [Video Presentation](https://youtu.be/nDZ-knLTBqw)
+        - [Slides](docs/presentations/midterm_presentation/midterm_presentation.pdf)
+    - Expo
+        - [Video Presentation](https://youtu.be/3L6nANa7GtA)
+        - [Slides](docs/presentations/expo_presentation/Meetify-Expo-Presentation.pdf)
+        - [Poster](docs/presentations/expo_presentation/Meetify-Expo-Poster.pdf)
 - Initial Self-Assessment Essays From...
     - [Rob Boeckermann](docs/assessments/fall2020/Rob-Boeckermann-Assessment.md)
     - [Dustin Seger](docs/assessments/fall2020/Dustin-Seger-Assessment.md)
@@ -34,7 +44,7 @@
     - [Rob Boeckermann](docs/bios/rob-boeckermann-bio.pdf)
     - [Dustin Seger](docs/bios/dustin-seger-bio.md)
     - [Jake Steuver](docs/bios/jake-steuver-bio.md)
-- [Appendix](docs/appendix.md)
+- [Appendix (Hours & Other Notes)](docs/appendix.md)
 
 </details>
 
@@ -46,7 +56,7 @@
 
 For the front-end code, see the [Meetify UI
 repository](https://github.com/segeeslice/Meetify-UI). For user usage
-instructions, see the [user documents](docs/user_docs/user_docs.md).
+instructions, see the [user manual](docs/user_docs/user_docs.md).
 
 ### Team Members
 **Dustin Seger**  
