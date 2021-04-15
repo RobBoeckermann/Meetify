@@ -37,9 +37,9 @@
     - [Dustin Seger](docs/assessments/fall2020/Dustin-Seger-Assessment.md)
     - [Jake Steuver](docs/assessments/fall2020/Jake-Steuver-Assessment.md)
 - Final Self-Assessment Essays From...
-    - [Rob Boeckermann](docs/assessments/spring2021/Rob-Boeckermann-Assessment.md)
-    - [Dustin Seger](docs/assessments/spring2021/Dustin-Seger-Assessment.md)
-    - [Jake Steuver](docs/assessments/spring2021/Jake-Steuver-Assessment.md)
+    - [Rob Boeckermann](docs/assessments/spring2021/Rob-Boeckermann-Final-Assessment.md)
+    - [Dustin Seger](docs/assessments/spring2021/Dustin-Seger-Final-Assessment.md)
+    - [Jake Steuver](docs/assessments/spring2021/Jake-Steuver-Final-Assessment.md)
 - Professional Biographies From...
     - [Rob Boeckermann](docs/bios/rob-boeckermann-bio.pdf)
     - [Dustin Seger](docs/bios/dustin-seger-bio.md)
