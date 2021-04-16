@@ -44,7 +44,7 @@
     - [Rob Boeckermann](docs/bios/rob-boeckermann-bio.pdf)
     - [Dustin Seger](docs/bios/dustin-seger-bio.md)
     - [Jake Steuver](docs/bios/jake-steuver-bio.md)
-- [Appendix (Hours & Other Notes)](docs/appendix.md)
+- [Hours Summary](docs/milestones/summary_of_hours.md)
 
 </details>
 
